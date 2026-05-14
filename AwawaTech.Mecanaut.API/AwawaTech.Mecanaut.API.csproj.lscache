@@ -1,0 +1,1001 @@
+version=1
+
+# This file caches language service data to improve the performance of C# Dev Kit.
+# It is not intended for manual editing. It can safely be deleted and will be
+# regenerated automatically. For more information, see https://aka.ms/lscache
+#
+# To control where cache files are stored, use the following VS Code setting:
+#   "dotnet.projectsystem.cacheInProjectFolder": true
+
+[project]
+language=C#
+primary
+lastDtbSucceeded
+
+[properties]
+AssemblyName=AwawaTech.Mecanaut.API
+CommandLineArgsForDesignTimeEvaluation=-langversion:13.0 -define:TRACE
+CompilerGeneratedFilesOutputPath=
+MaxSupportedLangVersion=13.0
+ProjectAssetsFile=<PATH>obj/project.assets.json
+RootNamespace=AwawaTech.Mecanaut.API
+RunAnalyzers=
+RunAnalyzersDuringLiveAnalysis=
+SolutionPath=<PATH>../mecanaut-platform.sln
+TargetFrameworkIdentifier=.NETCoreApp
+TargetPath=<PATH>bin/Debug/net9.0/AwawaTech.Mecanaut.API.dll
+TargetRefPath=<PATH>obj/Debug/net9.0/ref/AwawaTech.Mecanaut.API.dll
+TemporaryDependencyNodeTargetIdentifier=net9.0
+
+[commandLineArguments]
+/noconfig
+/unsafe-
+/checked-
+/nowarn:1701,1702,1701,1702,8002
+/fullpaths
+/nostdlib+
+/errorreport:prompt
+/warn:9
+/define:TRACE;DEBUG;NET;NET9_0;NETCOREAPP;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP1_0_OR_GREATER;NETCOREAPP1_1_OR_GREATER;NETCOREAPP2_0_OR_GREATER;NETCOREAPP2_1_OR_GREATER;NETCOREAPP2_2_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER
+/highentropyva+
+/nullable:enable
+/debug+
+/debug:portable
+/filealign:512
+/optimize-
+/out:obj\Debug\net9.0\AwawaTech.Mecanaut.API.dll
+/refout:obj\Debug\net9.0\refint\AwawaTech.Mecanaut.API.dll
+/target:exe
+/warnaserror-
+/utf8output
+/deterministic+
+/langversion:13.0
+/warnaserror+:NU1605,SYSLIB0011
+
+[sourceFiles]
+AssetManagement/Application/Internal/CommandServices/
+ MachineCommandService.cs
+ PlantCommandService.cs
+ ProductionLineCommandService.cs
+AssetManagement/Application/Internal/QueryServices/
+ MachineQueryService.cs
+ PlantQueryService.cs
+ ProductionLineQueryService.cs
+AssetManagement/Domain/Exceptions/
+ MachineInMaintenanceException.cs
+ MachineNotOperationalException.cs
+ PlantAlreadyActiveException.cs
+ PlantAlreadyInactiveException.cs
+ ProductionLineAlreadyRunningException.cs
+ ProductionLineAlreadyStoppedException.cs
+ ProductionLineInMaintenanceException.cs
+ ProductionLineNotReadyException.cs
+AssetManagement/Domain/Model/Aggregates/
+ Machine.cs
+ Plant.cs
+ ProductionLine.cs
+AssetManagement/Domain/Model/Commands/
+ ActivatePlantCommand.cs
+ AssignMachineToProductionLineCommand.cs
+ CompleteMachineMaintenanceCommand.cs
+ CreatePlantCommand.cs
+ CreateProductionLineCommand.cs
+ DeactivatePlantCommand.cs
+ RegisterMachineCommand.cs
+ StartMachineMaintenanceCommand.cs
+ StartProductionCommand.cs
+ StopProductionCommand.cs
+ UpdatePlantCommand.cs
+AssetManagement/Domain/Model/Events/
+ MachineEvents.cs
+ PlantEvents.cs
+ ProductionLineEvents.cs
+AssetManagement/Domain/Model/Queries/
+ GetAllMachinesQuery.cs
+ GetAllPlantsQuery.cs
+ GetAvailableMachinesQuery.cs
+ GetMachineByIdQuery.cs
+ GetMachineBySerialNumberQuery.cs
+ GetMachinesByPlantIdQuery.cs
+ GetMachinesByProductionLineQuery.cs
+ GetMachinesDueForMaintenanceQuery.cs
+ GetPlantByIdQuery.cs
+ GetProductionLineByIdQuery.cs
+ GetProductionLinesByPlantQuery.cs
+ GetRunningProductionLinesQuery.cs
+AssetManagement/Domain/Model/ValueObjects/
+ Capacity.cs
+ ContactInfo.cs
+ Location.cs
+ MachineSpecs.cs
+ MachineStatus.cs
+ MaintenanceInfo.cs
+ ProductionLineStatus.cs
+AssetManagement/Domain/Repositories/
+ IMachineRepository.cs
+ IPlantRepository.cs
+ IProductionLineRepository.cs
+AssetManagement/Domain/Services/
+ IMachineCommandService.cs
+ IMachineQueryService.cs
+ IPlantCommandService.cs
+ IPlantQueryService.cs
+ IProductionLineCommandService.cs
+ IProductionLineQueryService.cs
+AssetManagement/Infrastructure/Persistence/EFC/Repositories/
+ MachineRepository.cs
+ PlantRepository.cs
+ ProductionLineRepository.cs
+AssetManagement/Interfaces/REST/
+ MachinesController.cs
+ PlantsController.cs
+ ProductionLinesController.cs
+ Resources/
+  AssignMachineResource.cs
+  CreatePlantResource.cs
+  CreateProductionLineResource.cs
+  MachineResource.cs
+  PlantResource.cs
+  ProductionLineResource.cs
+  RegisterMachineResource.cs
+  StopProductionResource.cs
+  UpdatePlantResource.cs
+ Transform/
+  AssignMachineCommandFromResourceAssembler.cs
+  CreatePlantCommandFromResourceAssembler.cs
+  CreateProductionLineCommandFromResourceAssembler.cs
+  MachineResourceFromEntityAssembler.cs
+  PlantResourceFromEntityAssembler.cs
+  ProductionLineResourceFromEntityAssembler.cs
+  RegisterMachineCommandFromResourceAssembler.cs
+  StopProductionCommandFromResourceAssembler.cs
+  UpdatePlantCommandFromResourceAssembler.cs
+Competency/Application/Internal/
+ CommandServices/SkillCommandService.cs
+ QueryServices/SkillQueryService.cs
+Competency/Domain/Model/
+ Aggregates/Skill.cs
+ Commands/
+  CreateSkillCommand.cs
+  DeactivateSkillCommand.cs
+  UpdateSkillCommand.cs
+ Events/SkillEvents.cs
+ Queries/
+  GetAllSkillsQuery.cs
+  GetSkillByIdQuery.cs
+ ValueObjects/SkillStatus.cs
+Competency/Domain/
+ Repositories/ISkillRepository.cs
+ Services/
+  ISkillCommandService.cs
+  ISkillQueryService.cs
+Competency/
+ Infrastructure/Persistence/EFC/Repositories/SkillRepository.cs
+ Interfaces/REST/Resources/
+  CreateSkillResource.cs
+  SkillResource.cs
+  UpdateSkillResource.cs
+ Interfaces/REST/
+  SkillsController.cs
+  Transform/
+   CreateSkillCommandFromResourceAssembler.cs
+   SkillResourceFromEntityAssembler.cs
+   UpdateSkillCommandFromResourceAssembler.cs
+ConditionMonitoring/Application/Internal/CommandServices/
+ MachineMetricsCommandService.cs
+ MetricDefinitionCommandService.cs
+ConditionMonitoring/Application/Internal/
+ EventHandlers/MetricsSeedHostedService.cs
+ OutboundServices/Dtos/
+  CreateWorkOrderFromPlanDto.cs
+  DynamicPlanTemplateDto.cs
+ OutboundServices/
+  DynamicMaintenancePlanningAcl.cs
+  IDynamicMaintenancePlanningAcl.cs
+  IMachineCatalogAcl.cs
+  IWorkOrderAcl.cs
+  WorkOrderAcl.cs
+ QueryServices/
+  MachineMetricsQueryService.cs
+  MetricQueryService.cs
+ConditionMonitoring/Domain/Model/Aggregates/
+ MachineMetricRelation.cs
+ MachineMetrics.cs
+ MetricDefinition.cs
+ConditionMonitoring/Domain/Model/Commands/
+ RecordMetricCommand.cs
+ SeedMetricsCommand.cs
+ConditionMonitoring/Domain/Model/
+ Entities/MetricReading.cs
+ Events/
+  MetricDefinitionCreatedEvent.cs
+  MetricRecordedEvent.cs
+ Queries/
+  GetAllMetricDefinitionsQuery.cs
+  GetCurrentMetricQuery.cs
+  GetCurrentMetricsByMachineQuery.cs
+  GetMetricReadingsQuery.cs
+ ValueObjects/CurrentMetric.cs
+ConditionMonitoring/Domain/Repositories/
+ IMachineMetricRelationRepository.cs
+ IMachineMetricsRepository.cs
+ IMetricDefinitionRepository.cs
+ IMetricReadingRepository.cs
+ConditionMonitoring/Domain/Services/
+ IMachineMetricsCommandService.cs
+ IMachineMetricsQueryService.cs
+ IMetricDefinitionCommandService.cs
+ IMetricQueryService.cs
+ConditionMonitoring/Infrastructure/
+ OutboundServices/MachineCatalogAcl.cs
+ Persistence/EFC/Repositories/
+  MachineMetricRelationRepository.cs
+  MachineMetricsRepository.cs
+  MetricDefinitionRepository.cs
+  MetricReadingRepository.cs
+ConditionMonitoring/Interfaces/REST/
+ MachineMetricsController.cs
+ MetricDefinitionsController.cs
+ Resources/
+  CurrentMetricResource.cs
+  MetricDefinitionResource.cs
+  MetricReadingResource.cs
+  RecordMetricResource.cs
+ Transform/
+  CurrentMetricResourceAssembler.cs
+  MetricDefinitionResourceFromEntityAssembler.cs
+  MetricReadingResourceFromEntityAssembler.cs
+  RecordMetricCommandFromResourceAssembler.cs
+DynamicMaintenancePlanning/Application/Internal/
+ CommandServices/DynamicMaintenancePlanCommandService.cs
+ QueryServices/DynamicMaintenancePlanQueryService.cs
+DynamicMaintenancePlanning/Domain/Model/
+ Aggregates/DynamicMaintenancePlan.cs
+ Commands/CreateDynamicMaintenancePlanCommand.cs
+ Entities/
+  DynamicMaintenancePlanMachine.cs
+  DynamicMaintenancePlanTask.cs
+  DynamicMaintenancePlanWithDetails.cs
+ Events/
+  DynamicMaintenancePlanCreatedEvent.cs
+  MachineAddedToPlanEvent.cs
+  TaskAddedToPlanEvent.cs
+ Queries/
+  GetAllDynamicMaintenancePlansQuery.cs
+  GetDynamicMaintenancePlanQuery.cs
+ ValueObjects/
+  FutureTask.cs
+  PlanStatus.cs
+DynamicMaintenancePlanning/Domain/
+ Repositories/IDynamicMaintenancePlanRepository.cs
+ Services/
+  IDynamicMaintenancePlanCommandService.cs
+  IDynamicMaintenancePlanQueryService.cs
+DynamicMaintenancePlanning/
+ Infrastructure/Persistence/EFC/Repositories/DynamicMaintenancePlanRepository.cs
+ Interfaces/REST/
+  DynamicMaintenancePlansController.cs
+  Resources/
+   DynamicMaintenancePlanResource.cs
+   DynamicMaintenancePlanWithDetailsResource.cs
+   SaveDynamicMaintenancePlanResource.cs
+  Transform/
+   DynamicMaintenancePlanToResourceAssembler.cs
+   DynamicMaintenancePlanWithDetailsToResourceAssembler.cs
+   SaveDynamicMaintenancePlanCommandFromResourceAssembler.cs
+ExecutedWorkOrders/Application/Internal/
+ CommandServices/ExecutedWorkOrderCommandService.cs
+ OutboundServices/
+  IInventoryManagementAcl.cs
+  IWorkOrderExecAcl.cs
+ QueryServices/ExecutedWorkOrderQueryService.cs
+ExecutedWorkOrders/Domain/Model/
+ Aggregates/ExecutedWorkOrder.cs
+ Commands/CreateExecutedWorkOrderCommand.cs
+ Entities/
+  ExecutionImages.cs
+  UsedProduct.cs
+ Events/ExecutedWorkOrderCreatedEvent.cs
+ Queries/
+  GetExecutedWorkOrderByIdQuery.cs
+  GetExecutedWorkOrdersByProductionLineQuery.cs
+ExecutedWorkOrders/Domain/
+ Repositories/IExecutedWorkOrderRepository.cs
+ Services/
+  IExecutedWorkOrderCommandService.cs
+  IExecutedWorkOrderQueryService.cs
+ExecutedWorkOrders/Infrastructure/OutboundServices/Services/
+ InventoryManagementAcl.cs
+ WorkOrderExecAcl.cs
+ExecutedWorkOrders/
+ Infrastructure/Persistence/EFC/Repositories/ExecutedWorkOrderRepository.cs
+ Interfaces/REST/
+  ExecutedWorkOrdersController.cs
+  Resources/
+   ExecutedWorkOrderResource.cs
+   SaveExecutedWorkOrderResource.cs
+  Transform/
+   ExecutedWorkOrderToResourceAssembler.cs
+   SaveExecutedWorkOrderCommandFromResourceAssembler.cs
+IAM/Application/Internal/CommandServices/
+ RoleCommandService.cs
+ TenantCommandService.cs
+ UserCommandService.cs
+IAM/Application/Internal/
+ EventHandlers/SeedRolesHostedService.cs
+ OutboundServices/
+  IHashingService.cs
+  ITokenService.cs
+ QueryServices/
+  RoleQueryService.cs
+  TenantQueryService.cs
+  UserQueryService.cs
+IAM/Domain/Model/Aggregates/
+ Tenant.cs
+ User.cs
+IAM/Domain/Model/Commands/
+ CreateTenantCommand.cs
+ CreateUserCommand.cs
+ DeleteUserCommand.cs
+ SeedRolesCommand.cs
+ SignInCommand.cs
+ SignUpCommand.cs
+ UpdateUserCommand.cs
+IAM/Domain/Model/
+ Entities/Role.cs
+ Events/UserCreatedEvent.cs
+ Queries/
+  GetAllRolesQuery.cs
+  GetAllTenantsQuery.cs
+  GetAllUsersQuery.cs
+  GetRoleByNameQuery.cs
+  GetTenantByIdQuery.cs
+  GetUserByIdQuery.cs
+  GetUserByUsernameQuery.cs
+ ValueObjects/Roles.cs
+IAM/Domain/Repositories/
+ IRoleRepository.cs
+ ITenantRepository.cs
+ IUserRepository.cs
+IAM/Domain/Services/
+ IRoleCommandService.cs
+ IRoleQueryService.cs
+ ITenantCommandService.cs
+ ITenantQueryService.cs
+ IUserCommandService.cs
+ IUserQueryService.cs
+IAM/Infrastructure/
+ Authorization/PassthroughAuthenticationHandler.cs
+ Hashing/BCrypt/Services/HashingService.cs
+ Persistence/EFC/Repositories/
+  RoleRepository.cs
+  TenantRepository.cs
+  UserRepository.cs
+ Pipeline/Middleware/Attributes/
+  AllowAnonymousAttribute.cs
+  AuthorizeAttribute.cs
+ Pipeline/Middleware/
+  Components/RequestAuthorizationMiddleware.cs
+  Extensions/RequestAuthorizationMiddlewareExtensions.cs
+ Tokens/JWT/
+  Configuration/TokenSettings.cs
+  Services/TokenService.cs
+IAM/Interfaces/ACL/
+ IIamContextFacade.cs
+ ISubscriptionPlanAcl.cs
+ Services/
+  IamContextFacade.cs
+  SubscriptionPlanAcl.cs
+IAM/Interfaces/REST/
+ AuthenticationController.cs
+ Resources/
+  AuthenticatedUserResource.cs
+  CreateUserResource.cs
+  RoleResource.cs
+  SignInResource.cs
+  SignUpResource.cs
+  UpdateUserResource.cs
+  UserResource.cs
+ RolesController.cs
+ Transform/
+  AuthenticatedUserResourceFromEntityAssembler.cs
+  CreateUserCommandFromResourceAssembler.cs
+  RoleResourceFromEntityAssembler.cs
+  SignInCommandFromResourceAssembler.cs
+  SignUpCommandFromResourceAssembler.cs
+  UpdateUserCommandFromResourceAssembler.cs
+  UserResourceFromEntityAssembler.cs
+ UsersController.cs
+InventoryManagement/Application/Internal/CommandServices/
+ InventoryPartCommandService.cs
+ PurchaseOrderCommandService.cs
+InventoryManagement/Application/Internal/QueryServices/
+ InventoryPartQueryService.cs
+ PurchaseOrderQueryService.cs
+InventoryManagement/Domain/Model/Aggregates/
+ InventoryPart.cs
+ PurchaseOrder.cs
+InventoryManagement/Domain/Model/Commands/
+ CompletePurchaseOrderCommand.cs
+ CreateInventoryPartCommand.cs
+ CreatePurchaseOrderCommand.cs
+ DecreaseInventoryCommand.cs
+ DeleteInventoryPartCommand.cs
+ DeletePurchaseOrderCommand.cs
+ UpdateInventoryPartCommand.cs
+ UpdatePurchaseOrderCommand.cs
+InventoryManagement/Domain/Model/Events/
+ InventoryPartCreatedEvent.cs
+ InventoryPartEvents.cs
+ InventoryPartUpdatedEvent.cs
+ PurchaseOrderCreatedEvent.cs
+ PurchaseOrderEvents.cs
+ StockLevelChangedEvent.cs
+InventoryManagement/Domain/Model/Queries/
+ GetAllInventoryPartsQuery.cs
+ GetAllPurchaseOrdersQuery.cs
+ GetInventoryPartByIdQuery.cs
+ GetInventoryPartsByPlantIdQuery.cs
+ GetPurchaseOrderByIdQuery.cs
+InventoryManagement/Domain/Model/ValueObjects/
+ Money.cs
+ OrderStatus.cs
+ PartCode.cs
+ StockLevel.cs
+InventoryManagement/Domain/Repositories/
+ IInventoryPartRepository.cs
+ IPurchaseOrderRepository.cs
+InventoryManagement/Domain/Services/
+ IInventoryPartCommandService.cs
+ IInventoryPartQueryService.cs
+ IPurchaseOrderCommandService.cs
+ IPurchaseOrderQueryService.cs
+InventoryManagement/Infrastructure/Persistence/EFC/Repositories/
+ InventoryPartRepository.cs
+ PurchaseOrderRepository.cs
+InventoryManagement/Interfaces/REST/
+ InventoryPartsController.cs
+ PurchaseOrdersController.cs
+ Resources/
+  CreateInventoryPartResource.cs
+  CreatePurchaseOrderResource.cs
+  InventoryPartResource.cs
+  PurchaseOrderResource.cs
+  UpdateInventoryPartResource.cs
+ Transform/
+  IInventoryPartResourceAssembler.cs
+  InventoryPartResourceAssembler.cs
+  IPurchaseOrderResourceAssembler.cs
+  PurchaseOrderResourceAssembler.cs
+  UpdateInventoryPartCommandFromResourceAssembler.cs
+MaintenancePlanning/Domain/Model/Aggregates/
+ DynamicMaintenancePlan.cs
+ MaintenancePlan.cs
+ StaticMaintenancePlan.cs
+MaintenancePlanning/Domain/Model/Entities/
+ DynamicTask.cs
+ StaticPlanItem.cs
+ StaticTask.cs
+MaintenancePlanning/Domain/Model/Events/
+ DynamicTaskTriggeredEvent.cs
+ MaintenancePlanCreatedEvent.cs
+ StaticPlanDayGeneratedEvent.cs
+ WorkOrderCreationRequestedEvent.cs
+MaintenancePlanning/Domain/Model/ValueObjects/
+ MachineId.cs
+ MetricDefinitionId.cs
+ PlanPeriod.cs
+ PlanStatus.cs
+ PlanType.cs
+ ProductionLineId.cs
+ SkillId.cs
+ TaskStatus.cs
+ Threshold.cs
+obj/Debug/net9.0/
+ .NETCoreApp,Version=v9.0.AssemblyAttributes.cs
+ AwawaTech.Mecanaut.API.AssemblyInfo.cs
+ AwawaTech.Mecanaut.API.GlobalUsings.g.cs
+ xUnit.AssemblyHooks.cs
+Program.cs
+Shared/Domain/Events/
+ IDomainEvent.cs
+ IDomainEventDispatcher.cs
+ IDomainEventHandler.cs
+Shared/Domain/Model/Entities/
+ AuditableAggregateRoot.cs
+ AuditableEntity.cs
+Shared/Domain/Model/ValueObjects/
+ EmailAddress.cs
+ PhoneNumber.cs
+ TenantId.cs
+Shared/Domain/Repositories/
+ IBaseRepository.cs
+ IUnitOfWork.cs
+Shared/
+ Domain/Services/IImageStorageService.cs
+ Infrastructure/
+  DomainEvents/DomainEventDispatcher.cs
+  Interfaces/ASP/Configuration/
+   Extensions/StringExtensions.cs
+   KebabCaseRouteNamingConvention.cs
+  Interfaces/ASP/
+   Extensions/ClaimsPrincipalExtensions.cs
+   Filters/ApiExceptionFilter.cs
+   Middleware/GlobalExceptionHandlingMiddleware.cs
+  Interfaces/REST/ErrorResource.cs
+  Multitenancy/
+   TenantContext.cs
+   TenantContextHelper.cs
+  Persistence/EFC/Configuration/
+   AppDbContext.cs
+   Extensions/
+    ModelBuilderExtensions.cs
+    StringExtensions.cs
+  Persistence/EFC/Repositories/
+   BaseRepository.cs
+   UnitOfWork.cs
+  Storage/
+   CloudinaryService.cs
+   Resources/UploadImageResource.cs
+ Interfaces/REST/Controllers/ImageStorageController.cs
+Subscription/Application/Internal/
+ CommandServices/SubscriptionPlanCommandService.cs
+ EventHandlers/SubscriptionPlansSeedHostedService.cs
+ QueryServices/SubscriptionPlanQueryService.cs
+Subscription/Domain/Model/
+ Aggregates/SubscriptionPlan.cs
+ Commands/
+  ChangeSubscriptionPlanStatusCommand.cs
+  CreateSubscriptionPlanCommand.cs
+  SeedSubscriptionPlansCommand.cs
+  UpdateSubscriptionPlanCommand.cs
+ Events/SubscriptionPlanEvents.cs
+ Queries/
+  GetAllSubscriptionPlansQuery.cs
+  GetSubscriptionPlanByIdQuery.cs
+  GetSubscriptionPlanByTenantQuery.cs
+ ValueObjects/
+  PlanFeatures.cs
+  PlanLimits.cs
+  SubscriptionFeatures.cs
+  SubscriptionStatus.cs
+Subscription/Domain/
+ Repositories/ISubscriptionPlanRepository.cs
+ Services/
+  ISubscriptionPlanCommandService.cs
+  ISubscriptionPlanQueryService.cs
+Subscription/
+ Infrastructure/Persistence/EFC/Repositories/SubscriptionPlanRepository.cs
+ Interfaces/REST/Resources/
+  CreateSubscriptionPlanResource.cs
+  SubscriptionPlanResource.cs
+  UpdateSubscriptionPlanResource.cs
+ Interfaces/REST/
+  SubscriptionPlansController.cs
+  Transform/
+   CreateSubscriptionPlanCommandFromResourceAssembler.cs
+   SubscriptionPlanResourceFromEntityAssembler.cs
+   UpdateSubscriptionPlanCommandFromResourceAssembler.cs
+WorkOrders/Application/Internal/
+ CommandServices/WorkOrderCommandService.cs
+ QueryServices/WorkOrderQueryService.cs
+WorkOrders/Domain/Model/
+ Aggregates/WorkOrder.cs
+ Commands/
+  AddTasksToWorkOrderCommand.cs
+  AddTechniciansToWorkOrderCommand.cs
+  AssignMachinesToWorkOrderCommand.cs
+  AssignTechniciansCommand.cs
+  CompleteWorkOrderCommand.cs
+  CreateWorkOrderCommand.cs
+ Events/
+  MachinesAssignedToWorkOrderEvent.cs
+  TasksAddedToWorkOrderEvent.cs
+  TechniciansAddedToWorkOrderEvent.cs
+  WorkOrderCompletedEvent.cs
+  WorkOrderCreatedEvent.cs
+ Queries/
+  GetWorkOrderByIdQuery.cs
+  GetWorkOrdersByProductionLineQuery.cs
+ ValueObjects/
+  WorkOrderStatus.cs
+  WorkOrderType.cs
+WorkOrders/Domain/
+ Repositories/IWorkOrderRepository.cs
+ Services/
+  IWorkOrderCommandService.cs
+  IWorkOrderQueryService.cs
+WorkOrders/
+ Infrastructure/Persistence/EFC/Repositories/WorkOrderRepository.cs
+ Interfaces/REST/Resources/
+  CreateWorkOrderResource.cs
+  WorkOrderResource.cs
+ Interfaces/REST/WorkOrdersController.cs
+
+[metadataReferences]
+<NUGET>/
+ bcrypt.net-next/4.0.3/lib/net6.0/BCrypt.Net-Next.dll
+ bodi/1.5.0/lib/netstandard2.0/BoDi.dll
+ bouncycastle.cryptography/2.5.1/lib/net6.0/BouncyCastle.Cryptography.dll
+ cloudinarydotnet/1.15.0/lib/netstandard1.3/CloudinaryDotNet.dll
+ entityframeworkcore.createdupdateddate/8.0.0/lib/net8.0/EntityFrameworkCore.CreatedUpdatedDate.dll
+ fluentassertions/8.10.0/lib/net6.0/FluentAssertions.dll
+ gherkin/19.0.3/lib/netstandard2.0/Gherkin.dll
+ google.protobuf/3.30.0/lib/net5.0/Google.Protobuf.dll
+ humanizer.core/2.14.1/lib/net6.0/Humanizer.dll
+ k4os.compression.lz4.streams/1.3.8/lib/net6.0/K4os.Compression.LZ4.Streams.dll
+ k4os.compression.lz4/1.3.8/lib/net6.0/K4os.Compression.LZ4.dll
+ k4os.hash.xxhash/1.0.8/lib/net6.0/K4os.Hash.xxHash.dll
+ microsoft.aspnetcore.app.ref/9.0.16/ref/net9.0/
+  Microsoft.AspNetCore.Antiforgery.dll
+  Microsoft.AspNetCore.Authentication.Abstractions.dll
+  Microsoft.AspNetCore.Authentication.BearerToken.dll
+  Microsoft.AspNetCore.Authentication.Cookies.dll
+  Microsoft.AspNetCore.Authentication.Core.dll
+  Microsoft.AspNetCore.Authentication.dll
+  Microsoft.AspNetCore.Authentication.OAuth.dll
+  Microsoft.AspNetCore.Authorization.dll
+  Microsoft.AspNetCore.Authorization.Policy.dll
+  Microsoft.AspNetCore.Components.Authorization.dll
+  Microsoft.AspNetCore.Components.dll
+  Microsoft.AspNetCore.Components.Endpoints.dll
+  Microsoft.AspNetCore.Components.Forms.dll
+  Microsoft.AspNetCore.Components.Server.dll
+  Microsoft.AspNetCore.Components.Web.dll
+  Microsoft.AspNetCore.Connections.Abstractions.dll
+  Microsoft.AspNetCore.CookiePolicy.dll
+  Microsoft.AspNetCore.Cors.dll
+  Microsoft.AspNetCore.Cryptography.Internal.dll
+  Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+  Microsoft.AspNetCore.DataProtection.Abstractions.dll
+  Microsoft.AspNetCore.DataProtection.dll
+  Microsoft.AspNetCore.DataProtection.Extensions.dll
+  Microsoft.AspNetCore.Diagnostics.Abstractions.dll
+  Microsoft.AspNetCore.Diagnostics.dll
+  Microsoft.AspNetCore.Diagnostics.HealthChecks.dll
+  Microsoft.AspNetCore.dll
+  Microsoft.AspNetCore.HostFiltering.dll
+  Microsoft.AspNetCore.Hosting.Abstractions.dll
+  Microsoft.AspNetCore.Hosting.dll
+  Microsoft.AspNetCore.Hosting.Server.Abstractions.dll
+  Microsoft.AspNetCore.Html.Abstractions.dll
+  Microsoft.AspNetCore.Http.Abstractions.dll
+  Microsoft.AspNetCore.Http.Connections.Common.dll
+  Microsoft.AspNetCore.Http.Connections.dll
+  Microsoft.AspNetCore.Http.dll
+  Microsoft.AspNetCore.Http.Extensions.dll
+  Microsoft.AspNetCore.Http.Features.dll
+  Microsoft.AspNetCore.Http.Results.dll
+  Microsoft.AspNetCore.HttpLogging.dll
+  Microsoft.AspNetCore.HttpOverrides.dll
+  Microsoft.AspNetCore.HttpsPolicy.dll
+  Microsoft.AspNetCore.Identity.dll
+  Microsoft.AspNetCore.Localization.dll
+  Microsoft.AspNetCore.Localization.Routing.dll
+  Microsoft.AspNetCore.Metadata.dll
+  Microsoft.AspNetCore.Mvc.Abstractions.dll
+  Microsoft.AspNetCore.Mvc.ApiExplorer.dll
+  Microsoft.AspNetCore.Mvc.Core.dll
+  Microsoft.AspNetCore.Mvc.Cors.dll
+  Microsoft.AspNetCore.Mvc.DataAnnotations.dll
+  Microsoft.AspNetCore.Mvc.dll
+  Microsoft.AspNetCore.Mvc.Formatters.Json.dll
+  Microsoft.AspNetCore.Mvc.Formatters.Xml.dll
+  Microsoft.AspNetCore.Mvc.Localization.dll
+  Microsoft.AspNetCore.Mvc.Razor.dll
+  Microsoft.AspNetCore.Mvc.RazorPages.dll
+  Microsoft.AspNetCore.Mvc.TagHelpers.dll
+  Microsoft.AspNetCore.Mvc.ViewFeatures.dll
+  Microsoft.AspNetCore.OutputCaching.dll
+  Microsoft.AspNetCore.RateLimiting.dll
+  Microsoft.AspNetCore.Razor.dll
+  Microsoft.AspNetCore.Razor.Runtime.dll
+  Microsoft.AspNetCore.RequestDecompression.dll
+  Microsoft.AspNetCore.ResponseCaching.Abstractions.dll
+  Microsoft.AspNetCore.ResponseCaching.dll
+  Microsoft.AspNetCore.ResponseCompression.dll
+  Microsoft.AspNetCore.Rewrite.dll
+  Microsoft.AspNetCore.Routing.Abstractions.dll
+  Microsoft.AspNetCore.Routing.dll
+  Microsoft.AspNetCore.Server.HttpSys.dll
+  Microsoft.AspNetCore.Server.IIS.dll
+  Microsoft.AspNetCore.Server.IISIntegration.dll
+  Microsoft.AspNetCore.Server.Kestrel.Core.dll
+  Microsoft.AspNetCore.Server.Kestrel.dll
+  Microsoft.AspNetCore.Server.Kestrel.Transport.NamedPipes.dll
+  Microsoft.AspNetCore.Server.Kestrel.Transport.Quic.dll
+  Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.dll
+  Microsoft.AspNetCore.Session.dll
+  Microsoft.AspNetCore.SignalR.Common.dll
+  Microsoft.AspNetCore.SignalR.Core.dll
+  Microsoft.AspNetCore.SignalR.dll
+  Microsoft.AspNetCore.SignalR.Protocols.Json.dll
+  Microsoft.AspNetCore.StaticAssets.dll
+  Microsoft.AspNetCore.StaticFiles.dll
+  Microsoft.AspNetCore.WebSockets.dll
+  Microsoft.AspNetCore.WebUtilities.dll
+  Microsoft.Extensions.Caching.Abstractions.dll
+  Microsoft.Extensions.Caching.Memory.dll
+  Microsoft.Extensions.Configuration.Abstractions.dll
+  Microsoft.Extensions.Configuration.Binder.dll
+  Microsoft.Extensions.Configuration.CommandLine.dll
+  Microsoft.Extensions.Configuration.dll
+  Microsoft.Extensions.Configuration.EnvironmentVariables.dll
+  Microsoft.Extensions.Configuration.FileExtensions.dll
+  Microsoft.Extensions.Configuration.Ini.dll
+  Microsoft.Extensions.Configuration.Json.dll
+  Microsoft.Extensions.Configuration.KeyPerFile.dll
+  Microsoft.Extensions.Configuration.UserSecrets.dll
+  Microsoft.Extensions.Configuration.Xml.dll
+  Microsoft.Extensions.DependencyInjection.Abstractions.dll
+  Microsoft.Extensions.DependencyInjection.dll
+  Microsoft.Extensions.Diagnostics.Abstractions.dll
+  Microsoft.Extensions.Diagnostics.dll
+  Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
+  Microsoft.Extensions.Diagnostics.HealthChecks.dll
+  Microsoft.Extensions.Features.dll
+  Microsoft.Extensions.FileProviders.Abstractions.dll
+  Microsoft.Extensions.FileProviders.Composite.dll
+  Microsoft.Extensions.FileProviders.Embedded.dll
+  Microsoft.Extensions.FileProviders.Physical.dll
+  Microsoft.Extensions.FileSystemGlobbing.dll
+  Microsoft.Extensions.Hosting.Abstractions.dll
+  Microsoft.Extensions.Hosting.dll
+  Microsoft.Extensions.Http.dll
+  Microsoft.Extensions.Identity.Core.dll
+  Microsoft.Extensions.Identity.Stores.dll
+  Microsoft.Extensions.Localization.Abstractions.dll
+  Microsoft.Extensions.Localization.dll
+  Microsoft.Extensions.Logging.Abstractions.dll
+  Microsoft.Extensions.Logging.Configuration.dll
+  Microsoft.Extensions.Logging.Console.dll
+  Microsoft.Extensions.Logging.Debug.dll
+  Microsoft.Extensions.Logging.dll
+  Microsoft.Extensions.Logging.EventLog.dll
+  Microsoft.Extensions.Logging.EventSource.dll
+  Microsoft.Extensions.Logging.TraceSource.dll
+  Microsoft.Extensions.ObjectPool.dll
+  Microsoft.Extensions.Options.ConfigurationExtensions.dll
+  Microsoft.Extensions.Options.DataAnnotations.dll
+  Microsoft.Extensions.Options.dll
+  Microsoft.Extensions.Primitives.dll
+  Microsoft.Extensions.WebEncoders.dll
+  Microsoft.JSInterop.dll
+  Microsoft.Net.Http.Headers.dll
+  System.Diagnostics.EventLog.dll
+  System.Security.Cryptography.Xml.dll
+  System.Threading.RateLimiting.dll
+ microsoft.aspnetcore.authentication.jwtbearer/9.0.5/lib/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+ microsoft.dotnet.platformabstractions/1.0.3/lib/netstandard1.3/Microsoft.DotNet.PlatformAbstractions.dll
+ microsoft.entityframeworkcore.abstractions/9.0.5/lib/net8.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+ microsoft.entityframeworkcore.relational.design/1.1.6/lib/netstandard1.3/Microsoft.EntityFrameworkCore.Relational.Design.dll
+ microsoft.entityframeworkcore.relational/9.0.5/lib/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
+ microsoft.entityframeworkcore/9.0.5/lib/net8.0/Microsoft.EntityFrameworkCore.dll
+ microsoft.extensions.dependencymodel/1.0.3/lib/netstandard1.6/Microsoft.Extensions.DependencyModel.dll
+ microsoft.identitymodel.abstractions/8.11.0/lib/net9.0/Microsoft.IdentityModel.Abstractions.dll
+ microsoft.identitymodel.jsonwebtokens/8.11.0/lib/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+ microsoft.identitymodel.logging/8.11.0/lib/net9.0/Microsoft.IdentityModel.Logging.dll
+ microsoft.identitymodel.protocols.openidconnect/8.0.1/lib/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+ microsoft.identitymodel.protocols/8.0.1/lib/net9.0/Microsoft.IdentityModel.Protocols.dll
+ microsoft.identitymodel.tokens/8.11.0/lib/net9.0/Microsoft.IdentityModel.Tokens.dll
+ microsoft.netcore.app.ref/9.0.16/ref/net9.0/
+  Microsoft.CSharp.dll
+  Microsoft.VisualBasic.Core.dll
+  Microsoft.VisualBasic.dll
+  Microsoft.Win32.Primitives.dll
+  Microsoft.Win32.Registry.dll
+  mscorlib.dll
+  netstandard.dll
+  System.AppContext.dll
+  System.Buffers.dll
+  System.Collections.Concurrent.dll
+  System.Collections.dll
+  System.Collections.Immutable.dll
+  System.Collections.NonGeneric.dll
+  System.Collections.Specialized.dll
+  System.ComponentModel.Annotations.dll
+  System.ComponentModel.DataAnnotations.dll
+  System.ComponentModel.dll
+  System.ComponentModel.EventBasedAsync.dll
+  System.ComponentModel.Primitives.dll
+  System.ComponentModel.TypeConverter.dll
+  System.Configuration.dll
+  System.Console.dll
+  System.Core.dll
+  System.Data.Common.dll
+  System.Data.DataSetExtensions.dll
+  System.Data.dll
+  System.Diagnostics.Contracts.dll
+  System.Diagnostics.Debug.dll
+  System.Diagnostics.DiagnosticSource.dll
+  System.Diagnostics.FileVersionInfo.dll
+  System.Diagnostics.Process.dll
+  System.Diagnostics.StackTrace.dll
+  System.Diagnostics.TextWriterTraceListener.dll
+  System.Diagnostics.Tools.dll
+  System.Diagnostics.TraceSource.dll
+  System.Diagnostics.Tracing.dll
+  System.dll
+  System.Drawing.dll
+  System.Drawing.Primitives.dll
+  System.Dynamic.Runtime.dll
+  System.Formats.Asn1.dll
+  System.Formats.Tar.dll
+  System.Globalization.Calendars.dll
+  System.Globalization.dll
+  System.Globalization.Extensions.dll
+  System.IO.Compression.Brotli.dll
+  System.IO.Compression.dll
+  System.IO.Compression.FileSystem.dll
+  System.IO.Compression.ZipFile.dll
+  System.IO.dll
+  System.IO.FileSystem.AccessControl.dll
+  System.IO.FileSystem.dll
+  System.IO.FileSystem.DriveInfo.dll
+  System.IO.FileSystem.Primitives.dll
+  System.IO.FileSystem.Watcher.dll
+  System.IO.IsolatedStorage.dll
+  System.IO.MemoryMappedFiles.dll
+  System.IO.Pipelines.dll
+  System.IO.Pipes.AccessControl.dll
+  System.IO.Pipes.dll
+  System.IO.UnmanagedMemoryStream.dll
+  System.Linq.dll
+  System.Linq.Expressions.dll
+  System.Linq.Parallel.dll
+  System.Linq.Queryable.dll
+  System.Memory.dll
+  System.Net.dll
+  System.Net.Http.dll
+  System.Net.Http.Json.dll
+  System.Net.HttpListener.dll
+  System.Net.Mail.dll
+  System.Net.NameResolution.dll
+  System.Net.NetworkInformation.dll
+  System.Net.Ping.dll
+  System.Net.Primitives.dll
+  System.Net.Quic.dll
+  System.Net.Requests.dll
+  System.Net.Security.dll
+  System.Net.ServicePoint.dll
+  System.Net.Sockets.dll
+  System.Net.WebClient.dll
+  System.Net.WebHeaderCollection.dll
+  System.Net.WebProxy.dll
+  System.Net.WebSockets.Client.dll
+  System.Net.WebSockets.dll
+  System.Numerics.dll
+  System.Numerics.Vectors.dll
+  System.ObjectModel.dll
+  System.Reflection.DispatchProxy.dll
+  System.Reflection.dll
+  System.Reflection.Emit.dll
+  System.Reflection.Emit.ILGeneration.dll
+  System.Reflection.Emit.Lightweight.dll
+  System.Reflection.Extensions.dll
+  System.Reflection.Metadata.dll
+  System.Reflection.Primitives.dll
+  System.Reflection.TypeExtensions.dll
+  System.Resources.Reader.dll
+  System.Resources.ResourceManager.dll
+  System.Resources.Writer.dll
+  System.Runtime.CompilerServices.Unsafe.dll
+  System.Runtime.CompilerServices.VisualC.dll
+  System.Runtime.dll
+  System.Runtime.Extensions.dll
+  System.Runtime.Handles.dll
+  System.Runtime.InteropServices.dll
+  System.Runtime.InteropServices.JavaScript.dll
+  System.Runtime.InteropServices.RuntimeInformation.dll
+  System.Runtime.Intrinsics.dll
+  System.Runtime.Loader.dll
+  System.Runtime.Numerics.dll
+  System.Runtime.Serialization.dll
+  System.Runtime.Serialization.Formatters.dll
+  System.Runtime.Serialization.Json.dll
+  System.Runtime.Serialization.Primitives.dll
+  System.Runtime.Serialization.Xml.dll
+  System.Security.AccessControl.dll
+  System.Security.Claims.dll
+  System.Security.Cryptography.Algorithms.dll
+  System.Security.Cryptography.Cng.dll
+  System.Security.Cryptography.Csp.dll
+  System.Security.Cryptography.dll
+  System.Security.Cryptography.Encoding.dll
+  System.Security.Cryptography.OpenSsl.dll
+  System.Security.Cryptography.Primitives.dll
+  System.Security.Cryptography.X509Certificates.dll
+  System.Security.dll
+  System.Security.Principal.dll
+  System.Security.Principal.Windows.dll
+  System.Security.SecureString.dll
+  System.ServiceModel.Web.dll
+  System.ServiceProcess.dll
+  System.Text.Encoding.CodePages.dll
+  System.Text.Encoding.dll
+  System.Text.Encoding.Extensions.dll
+  System.Text.Encodings.Web.dll
+  System.Text.Json.dll
+  System.Text.RegularExpressions.dll
+  System.Threading.Channels.dll
+  System.Threading.dll
+  System.Threading.Overlapped.dll
+  System.Threading.Tasks.Dataflow.dll
+  System.Threading.Tasks.dll
+  System.Threading.Tasks.Extensions.dll
+  System.Threading.Tasks.Parallel.dll
+  System.Threading.Thread.dll
+  System.Threading.ThreadPool.dll
+  System.Threading.Timer.dll
+  System.Transactions.dll
+  System.Transactions.Local.dll
+  System.ValueTuple.dll
+  System.Web.dll
+  System.Web.HttpUtility.dll
+  System.Windows.dll
+  System.Xml.dll
+  System.Xml.Linq.dll
+  System.Xml.ReaderWriter.dll
+  System.Xml.Serialization.dll
+  System.Xml.XDocument.dll
+  System.Xml.XmlDocument.dll
+  System.Xml.XmlSerializer.dll
+  System.Xml.XPath.dll
+  System.Xml.XPath.XDocument.dll
+  WindowsBase.dll
+ microsoft.openapi/1.6.23/lib/netstandard2.0/Microsoft.OpenApi.dll
+ mysql.data/9.3.0/lib/net9.0/MySql.Data.dll
+ mysql.entityframeworkcore/9.0.3/lib/net9.0/MySql.EntityFrameworkCore.dll
+ newtonsoft.json/12.0.3/lib/netstandard2.0/Newtonsoft.Json.dll
+ specflow.internal.json/1.0.8/lib/netstandard2.0/SpecFlow.Internal.Json.dll
+ specflow.plus.livingdocplugin/3.9.57/lib/netstandard2.0/
+  LivingDoc.Dtos.dll
+  LivingDoc.SpecFlowPlugin.dll
+ specflow.xunit/3.9.74/lib/net6.0/TechTalk.SpecFlow.xUnit.SpecFlowPlugin.dll
+ specflow/3.9.74/lib/netstandard2.0/TechTalk.SpecFlow.dll
+ swashbuckle.aspnetcore.annotations/8.1.2/lib/net9.0/Swashbuckle.AspNetCore.Annotations.dll
+ swashbuckle.aspnetcore.swagger/8.1.2/lib/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+ swashbuckle.aspnetcore.swaggergen/8.1.2/lib/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+ swashbuckle.aspnetcore.swaggerui/8.1.2/lib/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+ system.configuration.configurationmanager/8.0.0/lib/net8.0/System.Configuration.ConfigurationManager.dll
+ system.identitymodel.tokens.jwt/8.11.0/lib/net9.0/System.IdentityModel.Tokens.Jwt.dll
+ system.security.cryptography.protecteddata/8.0.0/lib/net8.0/System.Security.Cryptography.ProtectedData.dll
+ system.security.permissions/8.0.0/lib/net8.0/System.Security.Permissions.dll
+ system.windows.extensions/8.0.0/lib/net8.0/System.Windows.Extensions.dll
+ xunit.abstractions/2.0.2/lib/netstandard2.0/xunit.abstractions.dll
+ xunit.extensibility.core/2.4.0/lib/netstandard2.0/xunit.core.dll
+ xunit.extensibility.execution/2.4.0/lib/netstandard2.0/xunit.execution.dotnet.dll
+ xunit.skippablefact/1.3.12/lib/netstandard1.1/Xunit.SkippableFact.dll
+ zstdsharp.port/0.8.5/lib/net9.0/ZstdSharp.dll
+
+[analyzerReferences]
+<DOTNET>/sdk/10.0.204/Sdks/Microsoft.NET.Sdk.Razor/source-generators/
+ Microsoft.AspNetCore.Razor.Utilities.Shared.dll
+ Microsoft.CodeAnalysis.Razor.Compiler.dll
+ Microsoft.Extensions.ObjectPool.dll
+<DOTNET>/sdk/10.0.204/Sdks/Microsoft.NET.Sdk.Web/analyzers/cs/
+ Microsoft.AspNetCore.Analyzers.dll
+ Microsoft.AspNetCore.Mvc.Analyzers.dll
+<DOTNET>/sdk/10.0.204/Sdks/Microsoft.NET.Sdk/analyzers/
+ Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll
+ Microsoft.CodeAnalysis.NetAnalyzers.dll
+<NUGET>/microsoft.aspnetcore.app.ref/9.0.16/analyzers/dotnet/cs/
+ Microsoft.AspNetCore.App.Analyzers.dll
+ Microsoft.AspNetCore.App.CodeFixes.dll
+ Microsoft.AspNetCore.Components.Analyzers.dll
+<NUGET>/microsoft.aspnetcore.app.ref/9.0.16/analyzers/dotnet/roslyn4.4/cs/
+ Microsoft.Extensions.Logging.Generators.dll
+ Microsoft.Extensions.Options.SourceGeneration.dll
+<NUGET>/
+ microsoft.entityframeworkcore.analyzers/9.0.5/analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll
+ microsoft.netcore.app.ref/9.0.16/analyzers/dotnet/cs/
+  Microsoft.Interop.ComInterfaceGenerator.dll
+  Microsoft.Interop.JavaScript.JSImportGenerator.dll
+  Microsoft.Interop.LibraryImportGenerator.dll
+  Microsoft.Interop.SourceGeneration.dll
+  System.Text.Json.SourceGeneration.dll
+  System.Text.RegularExpressions.Generator.dll
+
+[analyzerConfigFiles]
+<DOTNET>/sdk/10.0.204/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_9_default.globalconfig
+obj/Debug/net9.0/AwawaTech.Mecanaut.API.GeneratedMSBuildEditorConfig.editorconfig

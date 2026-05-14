@@ -15,6 +15,7 @@ public class WorkOrder : AuditableAggregateRoot
     public DateTime Date { get; private set; }
     public long ProductionLineId { get; private set; }
     public WorkOrderType Type { get; private set; }
+    public DateTime? ClosingDate { get; private set; }
 
     protected WorkOrder()
     {
@@ -86,7 +87,7 @@ public class WorkOrder : AuditableAggregateRoot
     public void Complete()
     {
         if (Status == WorkOrderStatus.Completed)
-            throw new ArgumentException("Work order is already completed");
+            throw new Exception("Work order is already completed");
 
         if (!MachineIds.Any())
             throw new ArgumentException("Cannot complete work order without assigned machines");
@@ -95,6 +96,7 @@ public class WorkOrder : AuditableAggregateRoot
             throw new ArgumentException("Cannot complete work order without tasks");
 
         Status = WorkOrderStatus.Completed;
+        ClosingDate = DateTime.UtcNow;
         AddDomainEvent(new WorkOrderCompletedEvent(Id, TenantId.Value));
     }
 

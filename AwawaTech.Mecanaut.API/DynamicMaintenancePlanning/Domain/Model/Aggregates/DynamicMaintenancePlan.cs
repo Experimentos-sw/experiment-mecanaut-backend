@@ -2,6 +2,7 @@ using AwawaTech.Mecanaut.API.Shared.Domain.Model.Entities;
 using AwawaTech.Mecanaut.API.Shared.Domain.Model.ValueObjects;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Events;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.ValueObjects;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Aggregates;
 
@@ -17,6 +18,11 @@ public class DynamicMaintenancePlan : AuditableAggregateRoot
     public long PlantLineId { get; private set; }
     public TenantId TenantId { get; private set; }
     public PlanStatus Status { get; private set; }
+    
+    private readonly List<FutureTask> _generatedTasks = new();
+    
+    [NotMapped]
+    public IReadOnlyCollection<FutureTask> GeneratedTasks => _generatedTasks.AsReadOnly();
 
     protected DynamicMaintenancePlan() { }
 
@@ -53,6 +59,15 @@ public class DynamicMaintenancePlan : AuditableAggregateRoot
         {
             Status = PlanStatus.Inactive;
             // Aquí podríamos agregar un evento de desactivación si fuera necesario
+        }
+    }
+
+    public void GenerateFutureTasks(DateTime startDate, int durationInDays, int tasksToGenerate)
+    {
+        _generatedTasks.Clear();
+        for (int i = 1; i <= tasksToGenerate; i++)
+        {
+            _generatedTasks.Add(new FutureTask(startDate.AddDays(durationInDays * i)));
         }
     }
 } 
