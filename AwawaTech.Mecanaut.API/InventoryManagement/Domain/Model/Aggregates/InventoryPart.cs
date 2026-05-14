@@ -89,7 +89,7 @@ public class InventoryPart : AuditableAggregateRoot
 
     public void DecreaseInventory(long quantity)
     {
-        if (quantity > CurrentStock) CurrentStock = 0;
-        else CurrentStock -= (int)quantity;
+        if (quantity > CurrentStock) throw new InvalidOperationException("No hay suficiente stock.");
+        CurrentStock -= (int)quantity;
     }
 } 

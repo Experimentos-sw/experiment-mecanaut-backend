@@ -109,7 +109,7 @@ public class DynamicMaintenancePlanRepository : BaseRepository<DynamicMaintenanc
             .Where(joined =>
                 joined.machine.MachineId == machineId &&
                 joined.plan.MetricId == metricId &&
-                joined.plan.Amount == amount
+                joined.plan.Amount <= amount
             )
             .Select(joined => joined.plan.Id)
             .FirstOrDefaultAsync();

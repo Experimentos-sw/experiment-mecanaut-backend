@@ -65,6 +65,20 @@ public class Machine : AuditableAggregateRoot
         AddDomainEvent(new MachineMaintenanceCompletedEvent(Id));
     }
 
+    public void RegisterMetric(string name, double value, double maxSafeThreshold)
+    {
+        if (value > maxSafeThreshold)
+        {
+            if (Status != MachineStatusEnum.InMaintenance)
+            {
+                var prev = Status;
+                Status = MachineStatusEnum.InMaintenance;
+                MaintenanceInfo = MaintenanceInfo.WithLastMaintenanceDate(DateTime.UtcNow);
+                AddDomainEvent(new MachineMaintenanceStartedEvent(Id, prev));
+            }
+        }
+    }
+
     /* ---- Queries ---- */
     public bool NeedsMaintenance() => MaintenanceInfo.IsMaintenanceDue();
     public bool IsOperational() => Status == MachineStatusEnum.Operational;

@@ -110,21 +110,26 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader());
 });
 
-// ───────────── DbContext (MySQL) ─────────────
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-                      ?? throw new InvalidOperationException("Connection string not found.");
+// ───────────── DbContext (MySQL / InMemory para Tests) ─────────────
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+// 1. Verificamos que NO estemos en el entorno de pruebas
+if (builder.Environment.EnvironmentName != "Testing")
 {
-    if (builder.Environment.IsDevelopment())
-        options.UseMySQL(connectionString)
-               .LogTo(Console.WriteLine, LogLevel.Information)
-               .EnableSensitiveDataLogging()
-               .EnableDetailedErrors();
-    else
-        options.UseMySQL(connectionString)
-               .LogTo(Console.WriteLine, LogLevel.Error);
-});
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                          ?? throw new InvalidOperationException("Connection string not found.");
+
+    builder.Services.AddDbContext<AppDbContext>(options =>
+    {
+        if (builder.Environment.IsDevelopment())
+            options.UseMySQL(connectionString)
+                   .LogTo(Console.WriteLine, LogLevel.Information)
+                   .EnableSensitiveDataLogging()
+                   .EnableDetailedErrors();
+        else
+            options.UseMySQL(connectionString)
+                   .LogTo(Console.WriteLine, LogLevel.Error);
+    });
+}
 
 // ───────────── Swagger / OpenAPI ─────────────
 builder.Services.AddEndpointsApiExplorer();
@@ -326,3 +331,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+public partial class Program { }
