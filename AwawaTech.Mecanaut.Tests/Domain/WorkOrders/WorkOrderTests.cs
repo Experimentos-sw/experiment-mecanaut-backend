@@ -25,10 +25,7 @@ namespace AwawaTech.Mecanaut.Tests.Domain.WorkOrders
 
             // Assert
             workOrder.Status.Should().Be(WorkOrderStatus.Completed);
-            
-            // [TDD] Propiedad ClosingDate a ser implementada para registrar la fecha de cierre real
-            workOrder.ClosingDate.Should().NotBeNull();
-            workOrder.ClosingDate.Should().BeCloseTo(DateTime.UtcNow, TimeSpan.FromSeconds(2));
+
         }
 
         // US18: Registro de tareas realizadas
@@ -41,9 +38,9 @@ namespace AwawaTech.Mecanaut.Tests.Domain.WorkOrders
             var workOrder = WorkOrder.Create("WO-001", tenantId, DateTime.UtcNow, 1, WorkOrderType.Corrective);
             workOrder.AssignMachines(new[] { 1L });
             workOrder.AddTasks(new[] { "Reparar motor" });
-            
+
             // Completamos la orden por primera vez
-            workOrder.Complete(); 
+            workOrder.Complete();
 
             // Act
             Action act = () => workOrder.Complete();

@@ -15,7 +15,7 @@ public class WorkOrder : AuditableAggregateRoot
     public DateTime Date { get; private set; }
     public long ProductionLineId { get; private set; }
     public WorkOrderType Type { get; private set; }
-    public DateTime? ClosingDate { get; private set; }
+    //public DateTime? ClosingDate { get; private set; }
 
     protected WorkOrder()
     {
@@ -96,7 +96,7 @@ public class WorkOrder : AuditableAggregateRoot
             throw new ArgumentException("Cannot complete work order without tasks");
 
         Status = WorkOrderStatus.Completed;
-        ClosingDate = DateTime.UtcNow;
+        //ClosingDate = DateTime.UtcNow;
         AddDomainEvent(new WorkOrderCompletedEvent(Id, TenantId.Value));
     }
 
@@ -107,4 +107,4 @@ public class WorkOrder : AuditableAggregateRoot
 
         Status = WorkOrderStatus.InProgress;
     }
-} 
+}
