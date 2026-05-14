@@ -17,12 +17,11 @@ namespace AwawaTech.Mecanaut.Tests.Domain.AssetManagement
             var specs = new MachineSpecs("Fabricante", "Modelo", "Manual", 100.0);
             var tenantId = new TenantId(1);
             var machine = Machine.Create("MAC-001", "Prensa", specs, 1, tenantId);
-            
+
             var metricValue = 50.0;
             var maxSafeThreshold = 100.0;
 
             // Act
-            // [TDD] Método a implementar en Machine
             machine.RegisterMetric("Vibracion", metricValue, maxSafeThreshold);
 
             // Assert
@@ -39,7 +38,7 @@ namespace AwawaTech.Mecanaut.Tests.Domain.AssetManagement
             var specs = new MachineSpecs("Fabricante", "Modelo", "Manual", 100.0);
             var tenantId = new TenantId(1);
             var machine = Machine.Create("MAC-001", "Prensa", specs, 1, tenantId);
-            
+
             var metricValue = 120.0;
             var maxSafeThreshold = 100.0;
 
@@ -47,7 +46,6 @@ namespace AwawaTech.Mecanaut.Tests.Domain.AssetManagement
             machine.RegisterMetric("Vibracion", metricValue, maxSafeThreshold);
 
             // Assert
-            // [TDD] Si el valor supera el umbral, el estado cambia automáticamente a mantenimiento (o alerta)
             machine.Status.Should().Be(MachineStatus.InMaintenance);
         }
     }

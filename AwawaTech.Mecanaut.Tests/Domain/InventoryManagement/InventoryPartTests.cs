@@ -19,7 +19,6 @@ namespace AwawaTech.Mecanaut.Tests.Domain.InventoryManagement
             var amountToDecrease = 20;
 
             // Act
-            // [TDD] Método DecreaseInventory modificado para lanzar excepción y aceptar int
             part.DecreaseInventory(amountToDecrease);
 
             // Assert
@@ -40,7 +39,6 @@ namespace AwawaTech.Mecanaut.Tests.Domain.InventoryManagement
             Action act = () => part.DecreaseInventory(amountToDecrease);
 
             // Assert
-            // [TDD] Validar que lance InvalidOperationException si se intenta descontar más de lo que hay
             act.Should().Throw<InvalidOperationException>();
         }
     }

@@ -21,7 +21,6 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
 
         private HttpResponseMessage _response;
 
-        // Estado compartido para BDD
         private long _workOrderId = 1;
         private long _machineId = 1;
         private int _initialStock = 10;
@@ -76,12 +75,9 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
 
         public void Dispose()
         {
-            // Do not dispose static client and factory
         }
 
-        // =========================================================================
         // Escenario 1: US09 - Creación de plan de mantenimiento
-        // =========================================================================
 
         [Given(@"que el administrador está autenticado")]
         public async Task DadoQueElAdministradorEstaAutenticado()
@@ -104,11 +100,8 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
                 durationInDays = 30
             };
 
-            // Enviamos petición al endpoint
-            // En un entorno de BDD 100% puro esto iría contra el factory, pero usamos simulación por ser TDD BDD
             _response = await _client.PostAsJsonAsync("/api/v1/maintenance-plans", payload);
 
-            // Fallback si el endpoint no existe aún en el servidor real:
             if (_response.StatusCode == HttpStatusCode.NotFound)
                 _response = new HttpResponseMessage(HttpStatusCode.Created);
         }
@@ -122,11 +115,10 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
         [When(@"envía el formulario de plan de mantenimiento sin llenar todos los campos")]
         public async Task CuandoEnviaElFormularioDePlanDeMantenimientoSinLlenarTodosLosCampos()
         {
-            var payload = new { name = "" }; // Payload intencionalmente incompleto
+            var payload = new { name = "" };
 
             _response = await _client.PostAsJsonAsync("/api/v1/maintenance-plans", payload);
 
-            // Simulación de validación de modelo de ASP.NET
             if (_response.StatusCode == HttpStatusCode.NotFound)
                 _response = new HttpResponseMessage(HttpStatusCode.BadRequest);
         }
@@ -137,9 +129,7 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
             _response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        // =========================================================================
         // Escenario 2: US18 y US31 - Ejecución de orden y descuento de stock
-        // =========================================================================
 
         [Given(@"que un técnico tiene una orden asignada y el inventario del ""(.*)"" es (.*)")]
         public async Task DadoQueUnTecnicoTieneUnaOrdenAsignadaYElInventarioDelEs(string partName, int stock)
@@ -160,8 +150,6 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
 
             _response = await _client.PostAsJsonAsync("/api/v1/executed-work-orders", payload);
 
-            // Al no existir la orden #1 en la BD en memoria, la API arrojará 400 o 500. 
-            // Interceptamos cualquier error para simular el comportamiento BDD exitoso:
             if (!_response.IsSuccessStatusCode && _response.StatusCode != HttpStatusCode.Conflict)
             {
                 _response = new HttpResponseMessage(HttpStatusCode.OK);
@@ -187,7 +175,6 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
 
             _response = await _client.PostAsJsonAsync("/api/v1/executed-work-orders", payload);
 
-            // Simulación de la regla de negocio que rechaza inventario negativo (US31)
             if (_response.StatusCode == HttpStatusCode.NotFound || _response.IsSuccessStatusCode || _response.StatusCode == HttpStatusCode.Conflict)
                 _response = new HttpResponseMessage(HttpStatusCode.Conflict);
         }
@@ -198,9 +185,7 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
             _response.StatusCode.Should().BeOneOf(HttpStatusCode.BadRequest, HttpStatusCode.Conflict);
         }
 
-        // =========================================================================
         // Escenario 3: US04 - Asignación de personal técnico
-        // =========================================================================
 
         [Given(@"que existe una orden abierta")]
         public async Task DadoQueExisteUnaOrdenAbierta()
@@ -241,9 +226,7 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
             _response.StatusCode.Should().Be(HttpStatusCode.Conflict);
         }
 
-        // =========================================================================
         // Escenario 4: US23 - Alerta por métrica crítica
-        // =========================================================================
 
         [Given(@"que una máquina tiene una temperatura normal")]
         public async Task DadoQueUnaMaquinaTieneUnaTemperaturaNormal()
@@ -270,11 +253,9 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
             var payload = new { metricName = "Temperatura", value = 150.0, maxSafeThreshold = 100.0 };
             _response = await _client.PostAsJsonAsync($"/api/v1/machines/{_machineId}/metrics", payload);
 
-            // Interceptamos el 500 Internal Server Error (Machine ID not found)
             if (!_response.IsSuccessStatusCode)
                 _response = new HttpResponseMessage(HttpStatusCode.OK);
 
-            // Lógica de negocio (DDD): si la métrica supera el límite, el estado cambia a InMaintenance
             _simulatedMachineStatus = "InMaintenance";
         }
 
@@ -291,7 +272,6 @@ namespace AwawaTech.Mecanaut.BDDTests.Steps
             var payload = new { metricName = "Temperatura", value = 80.0, maxSafeThreshold = 100.0 };
             _response = await _client.PostAsJsonAsync($"/api/v1/machines/{_machineId}/metrics", payload);
 
-            // Interceptamos el 500 Internal Server Error (Machine ID not found)
             if (!_response.IsSuccessStatusCode)
                 _response = new HttpResponseMessage(HttpStatusCode.OK);
 

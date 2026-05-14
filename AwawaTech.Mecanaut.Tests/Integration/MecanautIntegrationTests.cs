@@ -11,25 +11,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 using System.Linq;
 
-// Importamos el DbContext real de la aplicación
 using AwawaTech.Mecanaut.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
 namespace AwawaTech.Mecanaut.Tests.Integration
 {
-    /// <summary>
-    /// Factory personalizado para levantar el servidor de pruebas en memoria.
-    /// Utiliza el entorno "Testing" para evitar conflictos con MySQL.
-    /// </summary>
+
     public class MecanautWebApplicationFactory : WebApplicationFactory<Program>
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            // 1. Forzamos a la API a correr en entorno "Testing"
             builder.UseEnvironment("Testing");
 
             builder.ConfigureServices(services =>
             {
-                // 2. Inyectamos la base de datos en memoria
                 services.AddDbContext<AppDbContext>(options =>
                 {
                     options.UseInMemoryDatabase("InMemoryDbForIntegrationTesting");
@@ -59,7 +53,6 @@ namespace AwawaTech.Mecanaut.Tests.Integration
 
             var signInResponse = await _client.PostAsJsonAsync("/api/v1/authentication/sign-in", signInPayload);
 
-            // Si el usuario no existe (400 Bad Request), lo creamos silenciosamente para obtener token
             if (!signInResponse.IsSuccessStatusCode)
             {
                 var signUpPayload = new
@@ -90,11 +83,8 @@ namespace AwawaTech.Mecanaut.Tests.Integration
 
         public Task DisposeAsync() => Task.CompletedTask;
 
-        // ==============================================================================
         // Escenario 1: US01 - Registro de Maquinaria
         // Endpoint: POST /api/v1/machines
-        // Verifica retorno de 200 OK (o 201 Created) y persistencia en la BD.
-        // ==============================================================================
         [Fact]
         public async Task RegisterMachine_ValidPayload_ReturnsOkAndPersists()
         {
@@ -120,7 +110,6 @@ namespace AwawaTech.Mecanaut.Tests.Integration
             // Assert
             response.StatusCode.Should().BeOneOf(new[] { HttpStatusCode.OK, HttpStatusCode.Created }, $"Body: {content}");
 
-            // Verificar en la BD
             using var scope = _factory.Services.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             var machineInDb = await db.Set<AwawaTech.Mecanaut.API.AssetManagement.Domain.Model.Aggregates.Machine>()
@@ -129,18 +118,14 @@ namespace AwawaTech.Mecanaut.Tests.Integration
             machineInDb!.Name.Should().Be("Prensa Hidráulica");
         }
 
-        // ==============================================================================
         // Escenario 2: US04 - Asignación de Técnico
         // Endpoint: POST /api/v1/work-orders/{id}/assign
-        // Verifica que al enviar el ID del técnico, este quede registrado en la BD.
-        // ==============================================================================
         [Fact]
         public async Task AssignTechnician_ToWorkOrder_ReturnsOkAndPersistsInDb()
         {
             // Arrange
             long workOrderId = 1;
 
-            // Sembrar una Orden de Trabajo base en memoria
             using (var scope = _factory.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -164,10 +149,8 @@ namespace AwawaTech.Mecanaut.Tests.Integration
             var content = await response.Content.ReadAsStringAsync();
 
             // Assert
-            // Puede que el endpoint aún no exista o retorne otro estado en TDD, pero esperamos un éxito
             response.StatusCode.Should().BeOneOf(new[] { HttpStatusCode.OK, HttpStatusCode.NoContent, HttpStatusCode.Created, HttpStatusCode.NotFound }, $"Body: {content}");
 
-            // Verificar la asginación en la base de datos
             if (response.IsSuccessStatusCode)
             {
                 using (var scope = _factory.Services.CreateScope())
@@ -182,11 +165,8 @@ namespace AwawaTech.Mecanaut.Tests.Integration
             }
         }
 
-        // ==============================================================================
         // Escenario 3: US09 - Creación de Plan de Mantenimiento
         // Endpoint: POST /api/v1/maintenance-plans
-        // Valida que al guardar, la BD registre el plan (y sus registros secundarios).
-        // ==============================================================================
         [Fact]
         public async Task CreateMaintenancePlan_ValidPayload_ReturnsOkAndPersists()
         {
@@ -210,26 +190,20 @@ namespace AwawaTech.Mecanaut.Tests.Integration
             // Assert
             response.StatusCode.Should().BeOneOf(new[] { HttpStatusCode.OK, HttpStatusCode.Created, HttpStatusCode.NotFound }, $"Body: {content}");
 
-            // Verificar persistencia en base de datos
             if (response.IsSuccessStatusCode)
             {
                 using var scope = _factory.Services.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                // Suponemos que se guarda en la entidad de planes de mantenimiento
                 var plan = await db.Set<AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Aggregates.DynamicMaintenancePlan>()
                                    .FirstOrDefaultAsync(p => p.Name == "Plan Preventivo Anual TDD");
 
                 plan.Should().NotBeNull("El plan de mantenimiento debe guardarse en la BD.");
-                // También se deberían generar registros secundarios para el calendario
             }
         }
 
-        // ==============================================================================
         // Escenario 4: US18 + US31 - Cierre de Orden e Inventario
         // Endpoint: POST /api/v1/executed-work-orders
-        // Valida 200 OK y verifica en la BD que la orden esté cerrada Y el inventario se haya descontado.
-        // ==============================================================================
         [Fact]
         public async Task RegisterExecutedWorkOrder_ValidPayload_ClosesOrderAndDecreasesInventory()
         {
@@ -238,7 +212,6 @@ namespace AwawaTech.Mecanaut.Tests.Integration
             int initialStock = 50;
             int quantityUsed = 2;
 
-            // Sembrar la Pieza de Inventario en memoria
             using (var scope = _factory.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -250,7 +223,6 @@ namespace AwawaTech.Mecanaut.Tests.Integration
                 db.Set<AwawaTech.Mecanaut.API.InventoryManagement.Domain.Model.Aggregates.InventoryPart>().Add(newPart);
                 await db.SaveChangesAsync();
 
-                // Capturamos el ID generado o auto-asignado de la pieza
                 inventoryPartId = newPart.Id;
             }
 
@@ -275,8 +247,6 @@ namespace AwawaTech.Mecanaut.Tests.Integration
             var content = await response.Content.ReadAsStringAsync();
 
             // Assert
-            // Aceptamos Conflict (409) como una respuesta temporal tolerada en TDD si faltan otras referencias en DB, 
-            // pero validamos que busque el 200/201.
             response.StatusCode.Should().BeOneOf(new[] { HttpStatusCode.OK, HttpStatusCode.Created, HttpStatusCode.Conflict }, $"Body: {content}");
 
             if (response.IsSuccessStatusCode)
@@ -284,7 +254,6 @@ namespace AwawaTech.Mecanaut.Tests.Integration
                 using var scope = _factory.Services.CreateScope();
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                // 1. Verificación del Cierre de la Orden (US18)
                 var workOrder = await db.Set<AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates.WorkOrder>()
                                         .FirstOrDefaultAsync(w => w.Id == payload.workOrderId);
 
@@ -293,7 +262,6 @@ namespace AwawaTech.Mecanaut.Tests.Integration
                     workOrder.Status.Should().Be(AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.ValueObjects.WorkOrderStatus.Completed, "La orden de trabajo debería haber cambiado su estado a Completada (Cerrada).");
                 }
 
-                // 2. Verificación del Descuento de Inventario (US31)
                 var updatedPart = await db.Set<AwawaTech.Mecanaut.API.InventoryManagement.Domain.Model.Aggregates.InventoryPart>()
                                           .FirstOrDefaultAsync(p => p.Id == inventoryPartId);
 

@@ -38,15 +38,12 @@ namespace AwawaTech.Mecanaut.Tests.Domain.WorkOrders
             var workOrder = WorkOrder.Create("WO-001", tenantId, DateTime.UtcNow, 1, WorkOrderType.Corrective);
             workOrder.AssignMachines(new[] { 1L });
             workOrder.AddTasks(new[] { "Reparar motor" });
-
-            // Completamos la orden por primera vez
             workOrder.Complete();
 
             // Act
             Action act = () => workOrder.Complete();
 
             // Assert
-            // [TDD] Validamos que lance la excepción si se invoca sobre una orden ya cerrada
             act.Should().Throw<Exception>();
         }
     }
