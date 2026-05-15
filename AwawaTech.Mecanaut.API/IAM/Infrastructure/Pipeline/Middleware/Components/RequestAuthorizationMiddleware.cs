@@ -66,10 +66,19 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
             // obtener el usuario desde la capa de aplicación
             var user = await userQueryService.Handle(getUserByIdQuery);
 
+            //prueba para que el back funcione
+            if (user == null)
+            {
+                Console.WriteLine($"Fallo de autorización: No se encontró el usuario {userId} para el tenant {tenantId}.");
+                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync("{\"error\": \"Usuario no encontrado o token inválido para este entorno.\"}");
+                return; // Muy importante el return para cortar el flujo aquí
+            }
             // construir ClaimsPrincipal con roles y tenant
             var claimsPrincipal = new List<Claim>
             {
-                new(ClaimTypes.Sid, user!.Id.ToString()),
+                new(ClaimTypes.Sid, user.Id.ToString()),
                 new(ClaimTypes.Name, user.Username),
                 new("tenant_id", tenantId.ToString())
             };
