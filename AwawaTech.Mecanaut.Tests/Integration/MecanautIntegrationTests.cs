@@ -3,6 +3,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System;
 using FluentAssertions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -18,6 +19,8 @@ namespace AwawaTech.Mecanaut.Tests.Integration
 
     public class MecanautWebApplicationFactory : WebApplicationFactory<Program>
     {
+        private readonly string _dbName = $"InMemoryDbForIntegrationTesting_{Guid.NewGuid():N}";
+
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.UseEnvironment("Testing");
@@ -26,7 +29,7 @@ namespace AwawaTech.Mecanaut.Tests.Integration
             {
                 services.AddDbContext<AppDbContext>(options =>
                 {
-                    options.UseInMemoryDatabase("InMemoryDbForIntegrationTesting");
+                    options.UseInMemoryDatabase(_dbName);
                 });
             });
         }

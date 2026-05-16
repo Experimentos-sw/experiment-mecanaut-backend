@@ -3,6 +3,7 @@ using AwawaTech.Mecanaut.API.IAM.Domain.Model.Queries;
 using AwawaTech.Mecanaut.API.IAM.Domain.Services;
 using AwawaTech.Mecanaut.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using AwawaTech.Mecanaut.API.Shared.Infrastructure.Multitenancy;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
 namespace AwawaTech.Mecanaut.API.IAM.Infrastructure.Pipeline.Middleware.Components;
@@ -24,79 +25,67 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
     public async Task InvokeAsync(
         HttpContext context,
         IUserQueryService userQueryService,
-        ITokenService tokenService)
+        ITokenService tokenService,
+        ILogger<RequestAuthorizationMiddleware> logger)
     {
-        Console.WriteLine("Entering InvokeAsync");
-        // skip authorization if endpoint is decorated with [AllowAnonymous] attribute
         var endpoint = context.GetEndpoint();
-        var allowAnonymous = endpoint?.Metadata
-            .Any(m => m is AllowAnonymousAttribute) == true;
-        Console.WriteLine($"Allow Anonymous is {allowAnonymous}");
+        var allowAnonymous = endpoint?.Metadata.Any(m => m is AllowAnonymousAttribute) == true;
         if (allowAnonymous)
         {
-            Console.WriteLine("Skipping authorization");
-            // [AllowAnonymous] attribute is set, so skip authorization
             await next(context);
             return;
         }
-        Console.WriteLine("Entering authorization");
-        // get token from request header
+
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+        if (token == null)
+            throw new UnauthorizedAccessException("El encabezado Authorization es obligatorio.");
 
-
-        // if token is null then throw exception
-        if (token == null) throw new UnauthorizedAccessException("El encabezado Authorization es obligatorio.");
-
-        // validate token
         var claims = await tokenService.ValidateToken(token);
-
-        // if token is invalid then throw exception
-        if (claims == null) throw new UnauthorizedAccessException("Token inv谩lido o expirado.");
+        if (claims == null)
+            throw new UnauthorizedAccessException("Token inv醠ido o expirado.");
 
         var (userId, tenantId) = claims.Value;
+        logger.LogInformation("Auth claims detected: userId={UserId}, tenantId={TenantId}", userId, tenantId);
 
-        // Establecer contexto de tenant lo antes posible
         TenantContext.SetTenantId(tenantId);
 
         try
         {
-            // get user by id
             var getUserByIdQuery = new GetUserByIdQuery(userId);
-
-            // obtener el usuario desde la capa de aplicaci贸n
             var user = await userQueryService.Handle(getUserByIdQuery);
 
-            //prueba para que el back funcione
             if (user == null)
             {
-                Console.WriteLine($"Fallo de autorizaci贸n: No se encontr贸 el usuario {userId} para el tenant {tenantId}.");
+                logger.LogWarning("Authorization rejected. userFound=false, userId={UserId}, tenantId={TenantId}", userId, tenantId);
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync("{\"error\": \"Usuario no encontrado o token inv谩lido para este entorno.\"}");
-                return; // Muy importante el return para cortar el flujo aqu铆
+                await context.Response.WriteAsync("{\"error\": \"Usuario no encontrado o token inv醠ido para este entorno.\"}");
+                return;
             }
-            // construir ClaimsPrincipal con roles y tenant
-            var claimsPrincipal = new List<Claim>
+
+            logger.LogInformation(
+                "Authorization resolved user. userFound=true, userId={UserId}, username={Username}, tenantId={TenantId}, roles=[{Roles}]",
+                user.Id,
+                user.Username,
+                tenantId,
+                string.Join(",", user.Roles.Select(r => r.Name.ToString())));
+
+            var principalClaims = new List<Claim>
             {
                 new(ClaimTypes.Sid, user.Id.ToString()),
                 new(ClaimTypes.Name, user.Username),
                 new("tenant_id", tenantId.ToString())
             };
-            claimsPrincipal.AddRange(user.Roles.Select(r => new Claim(ClaimTypes.Role, r.Name.ToString())));
-            var identity = new ClaimsIdentity(claimsPrincipal, "Custom");
+            principalClaims.AddRange(user.Roles.Select(r => new Claim(ClaimTypes.Role, r.Name.ToString())));
+
+            var identity = new ClaimsIdentity(principalClaims, "Custom");
             context.User = new ClaimsPrincipal(identity);
-
-            // guardar user para capas superiores (atributo Authorize custom)
             context.Items["User"] = user;
-            Console.WriteLine("Successful authorization. Updating Context...");
-            Console.WriteLine("Continuing with Middleware Pipeline");
 
-            // call next middleware
             await next(context);
         }
         finally
         {
-            // Limpiar el contexto al final de la petici贸n
             TenantContext.Clear();
         }
     }

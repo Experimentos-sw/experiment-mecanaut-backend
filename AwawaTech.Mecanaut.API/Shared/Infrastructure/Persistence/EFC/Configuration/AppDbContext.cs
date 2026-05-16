@@ -40,6 +40,8 @@ namespace AwawaTech.Mecanaut.API.Shared.Infrastructure.Persistence.EFC.Configura
 /// </param>
 public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
+   public long CurrentTenantId => TenantContext.CurrentTenantId;
+
    /// <summary>
    ///     On configuring the database context
    /// </summary>
@@ -129,7 +131,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
              .WithMany()
              .UsingEntity(j => j.ToTable("user_roles"));
 
-            e.HasQueryFilter(u => u.TenantId == TenantContext.CurrentTenantId);
+            e.HasQueryFilter(u => u.TenantId == CurrentTenantId);
         });
 
         // ------------------ AssetManagement ------------------
