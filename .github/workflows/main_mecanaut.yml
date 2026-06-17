@@ -62,4 +62,5 @@ jobs:
           app-name: 'mecanaut'
           slot-name: 'Production'
           package: .
+          clean: true
           
