@@ -52,6 +52,13 @@
 	  <Folder Include="DynamicMaintenancePlanning\Application\Internal\QueryServices\" />
 	  <Folder Include="DynamicMaintenancePlanning\Infrastructure\Persistence\EFC\Repositories\" />
 	  <Folder Include="ExecutedWorkOrders\Domain\Services\" />
+	  <Folder Include="ExperimentSurveys\Application\Internal\OutboundServices\" />
+	  <Folder Include="ExperimentSurveys\Application\Internal\QueryServices\" />
+	  <Folder Include="ExperimentSurveys\Domain\Model\Entities\" />
+	  <Folder Include="ExperimentSurveys\Domain\Model\Events\" />
+	  <Folder Include="ExperimentSurveys\Domain\Model\Queries\" />
+	  <Folder Include="ExperimentSurveys\Domain\Services\" />
+	  <Folder Include="ExperimentSurveys\Infrastructure\OutboundServices\Services\" />
 	  <Folder Include="WorkOrders\Domain\Repositories\" />
 	  <Folder Include="WorkOrders\Domain\Services\" />
 	</ItemGroup>
