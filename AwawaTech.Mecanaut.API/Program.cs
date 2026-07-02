@@ -75,6 +75,11 @@ using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Application.Internal.QueryServic
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Interfaces.REST.Transform;
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Application.Internal.OutboundServices;
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Infrastructure.OutboundServices.Services;
+using AwawaTech.Mecanaut.API.ExperimentSurveys.Application.Internal.CommandServices;
+using AwawaTech.Mecanaut.API.ExperimentSurveys.Application.Internal.QueryServices;
+using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Repositories;
+using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Services;
+using AwawaTech.Mecanaut.API.ExperimentSurveys.Infrastructure.Persistence.EFC.Repositories;
 using AwawaTech.Mecanaut.API.Shared.Infrastructure.Storage;
 using AwawaTech.Mecanaut.API.Shared.Domain.Services;
 using AwawaTech.Mecanaut.API.WorkOrders.Application.Internal.CommandServices;
@@ -301,6 +306,11 @@ builder.Services.AddScoped<IExecutedWorkOrderQueryService, ExecutedWorkOrderQuer
 builder.Services.AddScoped<SaveExecutedWorkOrderCommandFromResourceAssembler>();
 builder.Services.AddScoped<IInventoryManagementAcl, InventoryManagementAcl>();
 builder.Services.AddScoped<IWorkOrderExecAcl, WorkOrderExecAcl>();
+
+// ExperimentSurveys Bounded Context
+builder.Services.AddScoped<IExperimentSurveyRepository, ExperimentSurveyRepository>();
+builder.Services.AddScoped<IExperimentSurveyCommandService, ExperimentSurveyCommandService>();
+builder.Services.AddScoped<IExperimentSurveyQueryService, ExperimentSurveyQueryService>();
 
 // ───────────── Build & DB ensure ─────────────a
 var app = builder.Build();
