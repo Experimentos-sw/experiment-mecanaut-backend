@@ -1,4 +1,4 @@
-﻿using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Model.Aggregates;
+using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Model.Commands;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Repositories;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Services;
@@ -23,6 +23,8 @@ public class ExperimentSurveyCommandService : IExperimentSurveyCommandService
             command.MaintenancePlanId,
             command.Rating,
             command.Variant,
+            command.Action,
+            command.UserId,
             command.Comment);
 
         await _repository.AddAsync(survey);

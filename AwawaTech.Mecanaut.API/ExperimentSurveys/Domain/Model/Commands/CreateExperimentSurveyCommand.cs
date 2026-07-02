@@ -1,10 +1,12 @@
-﻿namespace AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Model.Commands;
+namespace AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Model.Commands;
 
 public record CreateExperimentSurveyCommand
 {
     public int MaintenancePlanId { get; init; }
     public int Rating { get; init; }
     public string Variant { get; init; }
+    public string? Action { get; init; }
+    public long? UserId { get; init; }
     public string? Comment { get; init; }
 
     public CreateExperimentSurveyCommand()
@@ -12,11 +14,13 @@ public record CreateExperimentSurveyCommand
         Variant = string.Empty;
     }
 
-    public CreateExperimentSurveyCommand(int maintenancePlanId, int rating, string variant, string? comment)
+    public CreateExperimentSurveyCommand(int maintenancePlanId, int rating, string variant, string? action, long? userId, string? comment)
     {
         MaintenancePlanId = maintenancePlanId;
         Rating = rating;
         Variant = variant;
+        Action = action;
+        UserId = userId;
         Comment = comment;
     }
 
