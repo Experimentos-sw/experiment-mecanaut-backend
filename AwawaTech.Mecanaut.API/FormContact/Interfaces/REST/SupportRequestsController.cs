@@ -34,7 +34,7 @@ public class SupportRequestsController : ControllerBase
         var supportRequest = await _commandService.HandleAsync(command);
         var result = SupportRequestToResourceAssembler.ToResource(supportRequest);
 
-        return CreatedAtAction(nameof(GetByIdAsync), new { id = result.Id }, result);
+        return Ok(result);
     }
 
     [HttpGet("{id:long}")]
