@@ -13,10 +13,11 @@ public record SignUpResource(
     string? Website,
     long SubscriptionPlanId,
 
-    // Admin user data
+    // User data
     string Username,
     string Password,
     string Email,
     string FirstName,
-    string LastName
+    string LastName,
+    string? Role = null
 );
