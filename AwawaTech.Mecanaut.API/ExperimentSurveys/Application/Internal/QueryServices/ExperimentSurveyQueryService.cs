@@ -17,4 +17,9 @@ public class ExperimentSurveyQueryService : IExperimentSurveyQueryService
     {
         return await _repository.ListAsync();
     }
+    
+    public async Task<ExperimentSurvey?> FindByIdAsync(long id)
+    {
+        return await _repository.FindByIdAsync(id);
+    }
 }

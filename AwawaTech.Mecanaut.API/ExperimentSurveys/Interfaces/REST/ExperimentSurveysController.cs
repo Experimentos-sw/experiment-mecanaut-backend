@@ -27,7 +27,7 @@ public class ExperimentSurveysController : ControllerBase
         var survey = await _commandService.HandleAsync(command);
         var result = ExperimentSurveyToResourceAssembler.ToResource(survey);
 
-        return CreatedAtAction(nameof(GetAllAsync), new { id = survey.Id }, result);
+        return Ok(result);
     }
 
     [HttpGet]
@@ -37,5 +37,18 @@ public class ExperimentSurveysController : ControllerBase
         var resources = surveys.Select(survey => ExperimentSurveyToResourceAssembler.ToResource(survey)).ToList();
 
         return Ok(resources);
+    }
+    
+    [HttpGet("{id:long}")]
+    public async Task<IActionResult> GetByIdAsync(long id)
+    {
+        var survey = await _queryService.FindByIdAsync(id);
+
+        if (survey is null)
+            return NotFound();
+
+        var resource = ExperimentSurveyToResourceAssembler.ToResource(survey);
+
+        return Ok(resource);
     }
 }

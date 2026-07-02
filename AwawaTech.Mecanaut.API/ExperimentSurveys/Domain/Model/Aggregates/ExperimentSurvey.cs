@@ -4,7 +4,7 @@ using AwawaTech.Mecanaut.API.Shared.Domain.Model.Entities;
 
 public class ExperimentSurvey : AuditableAggregateRoot
 {
-    public int Id { get; private set; }
+    public long Id { get; private set; }
 
     public int MaintenancePlanId { get; private set; }
 
