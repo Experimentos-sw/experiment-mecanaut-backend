@@ -77,10 +77,7 @@ public class ExecutedWorkOrderCommandService : IExecutedWorkOrderCommandService
         
         await _workOrderExecAcl.MarkAsCompletedAsync(
             WorkOrderId, 
-            tenantId, 
-            command.IsAreaCleaned, 
-            command.AreToolsReturned, 
-            command.IsOperationsVerified
+            tenantId
         );
         
         return executedWorkOrder;

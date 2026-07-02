@@ -6,7 +6,4 @@ public class CompleteWorkOrderCommand
 {
     public long WorkOrderId { get; set; }
     public TenantId TenantId { get; set; }
-    public bool IsAreaCleaned { get; set; }
-    public bool AreToolsReturned { get; set; }
-    public bool IsOperationsVerified { get; set; }
 } 

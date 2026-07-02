@@ -181,10 +181,7 @@ public class WorkOrdersController : ControllerBase
         var command = new CompleteWorkOrderCommand
         {
             WorkOrderId = id,
-            TenantId = new TenantId(tenantIdValue),
-            IsAreaCleaned = resource.IsAreaCleaned,
-            AreToolsReturned = resource.AreToolsReturned,
-            IsOperationsVerified = resource.IsOperationsVerified
+            TenantId = new TenantId(tenantIdValue)
         };
 
         var workOrder = await _commandService.Handle(command);
