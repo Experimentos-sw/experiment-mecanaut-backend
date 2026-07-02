@@ -14,7 +14,7 @@ namespace AwawaTech.Mecanaut.API.InventoryManagement.Interfaces.REST
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/inventory-parts")]
     [Produces("application/json")]
     public class InventoryPartsController : ControllerBase
     {

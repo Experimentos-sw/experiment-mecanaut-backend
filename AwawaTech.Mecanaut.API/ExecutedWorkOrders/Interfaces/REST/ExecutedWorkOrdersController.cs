@@ -10,7 +10,7 @@ using AwawaTech.Mecanaut.API.Shared.Domain.Services;
 namespace AwawaTech.Mecanaut.API.ExecutedWorkOrders.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/executed-work-orders")]
 public class ExecutedWorkOrdersController : ControllerBase
 {
     private readonly IExecutedWorkOrderCommandService _commandService;

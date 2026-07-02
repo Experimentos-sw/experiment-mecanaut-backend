@@ -14,6 +14,9 @@ public class CreateExecutedWorkOrderCommand
     public List<long?> AssignedTechnicianIds { get; init; }
     public List<string> ExecutedTasks { get; init; }
     public List<(long ProductId, int Quantity)> UsedProducts { get; init; }
-    
     public List<string> ExecutionImages { get; init; }
+    
+    public bool IsAreaCleaned { get; init; }
+    public bool AreToolsReturned { get; init; }
+    public bool IsOperationsVerified { get; init; }
 } 

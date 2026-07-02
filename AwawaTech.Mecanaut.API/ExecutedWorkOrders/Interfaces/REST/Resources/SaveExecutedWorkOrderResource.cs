@@ -17,6 +17,10 @@ public class SaveExecutedWorkOrderResource
     public List<string> Files { get; set; }
     
     public long WorkOrderId { get; set; }
+
+    public bool IsAreaCleaned { get; set; }
+    public bool AreToolsReturned { get; set; }
+    public bool IsOperationsVerified { get; set; }
 }
 
 public class ProductQuantityResource

@@ -19,7 +19,10 @@ public class SaveExecutedWorkOrderCommandFromResourceAssembler
             ExecutedTasks = resource.ExecutedTasks,
             UsedProducts = resource.UsedProducts
                 .Select(p => (p.ProductId, p.Quantity))
-                .ToList()
+                .ToList(),
+            IsAreaCleaned = resource.IsAreaCleaned,
+            AreToolsReturned = resource.AreToolsReturned,
+            IsOperationsVerified = resource.IsOperationsVerified
         };
     }
 } 
