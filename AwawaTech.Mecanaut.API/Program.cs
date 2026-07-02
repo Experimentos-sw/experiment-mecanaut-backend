@@ -285,7 +285,7 @@ builder.Services.AddScoped<UpdateInventoryPartCommandFromResourceAssembler>();
 builder.Services.AddScoped<IDynamicMaintenancePlanRepository, DynamicMaintenancePlanRepository>();
 builder.Services.AddScoped<IDynamicMaintenancePlanCommandService, DynamicMaintenancePlanCommandService>();
 builder.Services.AddScoped<IDynamicMaintenancePlanQueryService, DynamicMaintenancePlanQueryService>();
-
+builder.Services.AddScoped<AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Services.IMaintenanceKpiQueryService, AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Application.Internal.QueryServices.MaintenanceKpiQueryService>();
 //(9)
 builder.Services.AddScoped<DynamicMaintenancePlanToResourceAssembler>();
 builder.Services.AddScoped<SaveDynamicMaintenancePlanCommandFromResourceAssembler>();
