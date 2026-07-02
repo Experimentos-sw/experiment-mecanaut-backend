@@ -4,6 +4,7 @@ using AwawaTech.Mecanaut.API.FormContact.Domain.Services;
 using AwawaTech.Mecanaut.API.FormContact.Interfaces.REST.Resources;
 using AwawaTech.Mecanaut.API.FormContact.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AwawaTech.Mecanaut.API.FormContact.Interfaces.REST;
 
@@ -23,6 +24,7 @@ public class SupportRequestsController : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<ActionResult<SupportRequestResource>> CreateAsync([FromBody] CreateSupportRequestResource resource)
     {
         if (!ModelState.IsValid)
