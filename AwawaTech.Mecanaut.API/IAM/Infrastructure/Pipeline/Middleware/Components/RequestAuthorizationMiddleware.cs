@@ -3,6 +3,7 @@ using AwawaTech.Mecanaut.API.IAM.Domain.Model.Queries;
 using AwawaTech.Mecanaut.API.IAM.Domain.Services;
 using AwawaTech.Mecanaut.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using AwawaTech.Mecanaut.API.Shared.Infrastructure.Multitenancy;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
 
@@ -29,7 +30,9 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
         ILogger<RequestAuthorizationMiddleware> logger)
     {
         var endpoint = context.GetEndpoint();
-        var allowAnonymous = endpoint?.Metadata.Any(m => m is AllowAnonymousAttribute) == true;
+        var allowAnonymous = endpoint?.Metadata.Any(m =>
+            m is AwawaTech.Mecanaut.API.IAM.Infrastructure.Pipeline.Middleware.Attributes.AllowAnonymousAttribute
+            || m is Microsoft.AspNetCore.Authorization.AllowAnonymousAttribute) == true;
         if (allowAnonymous)
         {
             await next(context);
@@ -42,7 +45,7 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
 
         var claims = await tokenService.ValidateToken(token);
         if (claims == null)
-            throw new UnauthorizedAccessException("Token inválido o expirado.");
+            throw new UnauthorizedAccessException("Token invï¿½lido o expirado.");
 
         var (userId, tenantId) = claims.Value;
         logger.LogInformation("Auth claims detected: userId={UserId}, tenantId={TenantId}", userId, tenantId);
@@ -59,7 +62,7 @@ public class RequestAuthorizationMiddleware(RequestDelegate next)
                 logger.LogWarning("Authorization rejected. userFound=false, userId={UserId}, tenantId={TenantId}", userId, tenantId);
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync("{\"error\": \"Usuario no encontrado o token inválido para este entorno.\"}");
+                await context.Response.WriteAsync("{\"error\": \"Usuario no encontrado o token invï¿½lido para este entorno.\"}");
                 return;
             }
 
