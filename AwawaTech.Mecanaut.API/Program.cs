@@ -78,6 +78,11 @@ using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Application.Internal.OutboundSer
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Infrastructure.OutboundServices.Services;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Application.Internal.CommandServices;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Application.Internal.QueryServices;
+using AwawaTech.Mecanaut.API.FormContact.Application.Internal.CommandServices;
+using AwawaTech.Mecanaut.API.FormContact.Application.Internal.QueryServices;
+using AwawaTech.Mecanaut.API.FormContact.Domain.Repositories;
+using AwawaTech.Mecanaut.API.FormContact.Domain.Services;
+using AwawaTech.Mecanaut.API.FormContact.Infrastructure.Persistence.EFC.Repositories;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Repositories;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Services;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Infrastructure.Persistence.EFC.Repositories;
@@ -321,6 +326,11 @@ builder.Services.AddScoped<IWorkOrderExecAcl, WorkOrderExecAcl>();
 builder.Services.AddScoped<IExperimentSurveyRepository, ExperimentSurveyRepository>();
 builder.Services.AddScoped<IExperimentSurveyCommandService, ExperimentSurveyCommandService>();
 builder.Services.AddScoped<IExperimentSurveyQueryService, ExperimentSurveyQueryService>();
+
+// FormContact Bounded Context
+builder.Services.AddScoped<ISupportRequestRepository, SupportRequestRepository>();
+builder.Services.AddScoped<ISupportRequestCommandService, SupportRequestCommandService>();
+builder.Services.AddScoped<ISupportRequestQueryService, SupportRequestQueryService>();
 
 // ───────────── Build & DB ensure ─────────────a
 var app = builder.Build();

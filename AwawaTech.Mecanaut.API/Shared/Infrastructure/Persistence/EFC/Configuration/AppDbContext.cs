@@ -30,6 +30,7 @@ using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Entities;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Model.Aggregates;
+using AwawaTech.Mecanaut.API.FormContact.Domain.Model;
 
 namespace AwawaTech.Mecanaut.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
@@ -309,6 +310,33 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 .HasConversion(v => v.Value, v => SubscriptionStatus.FromString(v))
                 .HasColumnName("status")
                 .IsRequired();
+        });
+
+        // ------------------ SupportRequest ------------------
+        builder.Entity<SupportRequest>(e =>
+        {
+            e.HasKey(s => s.Id);
+            e.Property(s => s.Id)
+             .ValueGeneratedOnAdd()
+             .HasColumnName("support_request_id");
+
+            e.Property(s => s.Name)
+             .IsRequired()
+             .HasMaxLength(255)
+             .HasColumnName("name");
+
+            e.Property(s => s.Email)
+             .IsRequired()
+             .HasMaxLength(255)
+             .HasColumnName("email");
+
+            e.Property(s => s.Message)
+             .IsRequired()
+             .HasColumnName("message");
+
+            e.Property(s => s.SubmittedAt)
+             .IsRequired()
+             .HasColumnName("submitted_at");
         });
 
         // ------------------ InventoryManagement ------------------
