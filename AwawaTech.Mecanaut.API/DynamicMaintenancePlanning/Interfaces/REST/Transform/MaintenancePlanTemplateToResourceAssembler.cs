@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Entities;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Interfaces.REST.Resources;
 
@@ -7,6 +8,21 @@ namespace AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Interfaces.REST.Tran
 
 public class MaintenancePlanTemplateToResourceAssembler
 {
+    
+    public MaintenancePlanTemplateResource ToResource(MaintenancePlanTemplate template)
+    {
+        return new MaintenancePlanTemplateResource
+        {
+            Id = template.Id,
+            Name = template.Name,
+            MetricId = template.MetricId.ToString(),
+            Amount = template.Amount,
+            ProductionLineId = template.ProductionLineId.ToString(),
+            PlantLineId = template.PlantLineId.ToString(),
+            Machines = new List<long>(),
+            Tasks = new List<string>()
+        };
+    }
     public MaintenancePlanTemplateResource ToResource(MaintenancePlanTemplateWithDetails templateWithDetails)
     {
         return new MaintenancePlanTemplateResource

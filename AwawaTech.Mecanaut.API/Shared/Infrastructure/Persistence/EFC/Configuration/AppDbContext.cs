@@ -477,6 +477,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<MaintenancePlanTemplateMachine>(e =>
         {
             e.HasKey(p => p.Id);
+
             e.Property(p => p.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("maintenance_plan_template_machine_id");
@@ -486,6 +487,12 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
             e.Property(pm => pm.MachineId)
                 .HasColumnName("machine_id");
+
+            e.HasIndex(pm => pm.TemplateId)
+                .HasDatabaseName("IX_MPTM_Template");
+
+            e.HasIndex(pm => pm.MachineId)
+                .HasDatabaseName("IX_MPTM_Machine");
 
             e.HasOne<MaintenancePlanTemplate>()
                 .WithMany()
@@ -497,6 +504,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<MaintenancePlanTemplateTask>(e =>
         {
             e.HasKey(p => p.Id);
+
             e.Property(p => p.Id)
                 .ValueGeneratedOnAdd()
                 .HasColumnName("maintenance_plan_template_task_id");
@@ -508,6 +516,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 .IsRequired()
                 .HasMaxLength(500)
                 .HasColumnName("task_description");
+
+            e.HasIndex(pt => pt.TemplateId)
+                .HasDatabaseName("IX_MPTT_Template");
 
             e.HasOne<MaintenancePlanTemplate>()
                 .WithMany()
