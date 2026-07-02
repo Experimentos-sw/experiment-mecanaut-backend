@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AwawaTech.Mecanaut.API.WorkOrders.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/work-orders")]
 [Authorize] // Aseguramos que el usuario esté autenticado
 public class WorkOrdersController : ControllerBase
 {
@@ -170,7 +170,7 @@ public class WorkOrdersController : ControllerBase
     
     
     [HttpPut("{id:long}/complete")]
-    public async Task<ActionResult<WorkOrderResource>> CompleteWorkOrder(long id)
+    public async Task<ActionResult<WorkOrderResource>> CompleteWorkOrder(long id, [FromBody] CompleteWorkOrderResource resource)
     {
         var tenantIdStr = User.Claims.FirstOrDefault(c => c.Type == "tenant_id")?.Value;
         if (string.IsNullOrEmpty(tenantIdStr) || !long.TryParse(tenantIdStr, out var tenantIdValue))
@@ -181,7 +181,10 @@ public class WorkOrdersController : ControllerBase
         var command = new CompleteWorkOrderCommand
         {
             WorkOrderId = id,
-            TenantId = new TenantId(tenantIdValue)
+            TenantId = new TenantId(tenantIdValue),
+            IsAreaCleaned = resource.IsAreaCleaned,
+            AreToolsReturned = resource.AreToolsReturned,
+            IsOperationsVerified = resource.IsOperationsVerified
         };
 
         var workOrder = await _commandService.Handle(command);

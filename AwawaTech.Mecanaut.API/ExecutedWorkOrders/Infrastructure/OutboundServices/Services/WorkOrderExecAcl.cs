@@ -1,4 +1,4 @@
-﻿using AwawaTech.Mecanaut.API.InventoryManagement.Domain.Model.Commands;
+using AwawaTech.Mecanaut.API.InventoryManagement.Domain.Model.Commands;
 using AwawaTech.Mecanaut.API.InventoryManagement.Domain.Services;
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Application.Internal.OutboundServices;
 using AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Commands;
@@ -18,12 +18,15 @@ public class WorkOrderExecAcl : IWorkOrderExecAcl
         _workOrderExecCommandService = workOrderExecCommandService;
     }
 
-    public async Task MarkAsCompletedAsync(long workOrderId, TenantId tenantId)
+    public async Task MarkAsCompletedAsync(long workOrderId, TenantId tenantId, bool isAreaCleaned, bool areToolsReturned, bool isOperationsVerified)
     {
         var command = new CompleteWorkOrderCommand
         {
             WorkOrderId = workOrderId,
-            TenantId = tenantId
+            TenantId = tenantId,
+            IsAreaCleaned = isAreaCleaned,
+            AreToolsReturned = areToolsReturned,
+            IsOperationsVerified = isOperationsVerified
         };
 
         await _workOrderExecCommandService.Handle(command);

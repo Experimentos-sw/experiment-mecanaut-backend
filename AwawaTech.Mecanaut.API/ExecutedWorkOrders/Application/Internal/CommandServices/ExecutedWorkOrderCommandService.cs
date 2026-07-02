@@ -59,7 +59,7 @@ public class ExecutedWorkOrderCommandService : IExecutedWorkOrderCommandService
 
         await _unitOfWork.CompleteAsync();
         
-        foreach (var file in files)
+        foreach (var file in files ?? new List<string>())
         {
            // var url = await _imageStorage.UploadImageAsync(file);
 
@@ -75,7 +75,13 @@ public class ExecutedWorkOrderCommandService : IExecutedWorkOrderCommandService
             );
         }
         
-        await _workOrderExecAcl.MarkAsCompletedAsync(WorkOrderId, tenantId);
+        await _workOrderExecAcl.MarkAsCompletedAsync(
+            WorkOrderId, 
+            tenantId, 
+            command.IsAreaCleaned, 
+            command.AreToolsReturned, 
+            command.IsOperationsVerified
+        );
         
         return executedWorkOrder;
     }
