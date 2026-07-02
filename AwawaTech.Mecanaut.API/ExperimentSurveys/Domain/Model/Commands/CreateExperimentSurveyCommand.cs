@@ -2,7 +2,7 @@
 
 public record CreateExperimentSurveyCommand
 {
-    public Guid MaintenancePlanId { get; init; }
+    public int MaintenancePlanId { get; init; }
     public int Rating { get; init; }
     public string Variant { get; init; }
     public string? Comment { get; init; }
@@ -12,9 +12,9 @@ public record CreateExperimentSurveyCommand
         Variant = string.Empty;
     }
 
-    public CreateExperimentSurveyCommand(string? maintenancePlanId, int rating, string variant, string? comment)
+    public CreateExperimentSurveyCommand(int maintenancePlanId, int rating, string variant, string? comment)
     {
-        MaintenancePlanId = ParseMaintenancePlanId(maintenancePlanId);
+        MaintenancePlanId = maintenancePlanId;
         Rating = rating;
         Variant = variant;
         Comment = comment;

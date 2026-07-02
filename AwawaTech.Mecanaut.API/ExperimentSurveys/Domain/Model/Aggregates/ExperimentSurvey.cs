@@ -6,7 +6,7 @@ public class ExperimentSurvey : AuditableAggregateRoot
 {
     public int Id { get; private set; }
 
-    public Guid MaintenancePlanId { get; private set; }
+    public int MaintenancePlanId { get; private set; }
 
     public int Rating { get; private set; }
 
@@ -17,7 +17,7 @@ public class ExperimentSurvey : AuditableAggregateRoot
     public DateTime SubmittedAt { get; private set; }
 
     public ExperimentSurvey(
-        Guid maintenancePlanId,
+        int maintenancePlanId,
         int rating,
         string variant,
         string? comment)

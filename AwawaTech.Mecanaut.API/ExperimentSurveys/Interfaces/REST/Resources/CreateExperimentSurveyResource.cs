@@ -2,7 +2,7 @@
 
 public class CreateExperimentSurveyResource
 {
-    public string? MaintenancePlanId { get; set; }
+    public int MaintenancePlanId { get; set; }
 
     public int Rating { get; set; }
 
