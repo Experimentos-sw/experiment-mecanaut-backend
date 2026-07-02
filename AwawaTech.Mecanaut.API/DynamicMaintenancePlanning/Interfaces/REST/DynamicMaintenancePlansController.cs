@@ -4,11 +4,13 @@ using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Interfaces.REST.Transfor
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Queries;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/dynamic-maintenance-plans")]
+[Authorize]
 public class DynamicMaintenancePlansController : ControllerBase
 {
     private readonly IDynamicMaintenancePlanCommandService _commandService;

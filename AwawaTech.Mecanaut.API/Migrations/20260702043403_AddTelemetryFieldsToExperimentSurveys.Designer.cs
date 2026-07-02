@@ -3,6 +3,7 @@ using System;
 using AwawaTech.Mecanaut.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AwawaTech.Mecanaut.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260702043403_AddTelemetryFieldsToExperimentSurveys")]
+    partial class AddTelemetryFieldsToExperimentSurveys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -374,62 +377,6 @@ namespace AwawaTech.Mecanaut.API.Migrations
                     b.ToTable("dynamic_maintenance_plans");
                 });
 
-            modelBuilder.Entity("AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Aggregates.MaintenancePlanTemplate", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("maintenance_plan_template_id");
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("double")
-                        .HasColumnName("amount");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("created_at");
-
-                    b.Property<long>("MetricId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("metric_id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("name");
-
-                    b.Property<long>("PlantLineId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("plant_line_id");
-
-                    b.Property<long>("ProductionLineId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("production_line_id");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("status");
-
-                    b.Property<long>("TenantId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("tenant_id");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id")
-                        .HasName("p_k_maintenance_plan_templates");
-
-                    b.HasIndex("Name", "TenantId")
-                        .IsUnique()
-                        .HasDatabaseName("i_x_maintenance_plan_templates_name_tenant_id");
-
-                    b.ToTable("maintenance_plan_templates");
-                });
-
             modelBuilder.Entity("AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Entities.DynamicMaintenancePlanMachine", b =>
                 {
                     b.Property<long>("Id")
@@ -494,72 +441,6 @@ namespace AwawaTech.Mecanaut.API.Migrations
                         .HasDatabaseName("i_x_dynamic_maintenance_plan_tasks_plan_id");
 
                     b.ToTable("dynamic_maintenance_plan_tasks");
-                });
-
-            modelBuilder.Entity("AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Entities.MaintenancePlanTemplateMachine", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("maintenance_plan_template_machine_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("created_at");
-
-                    b.Property<long>("MachineId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("machine_id");
-
-                    b.Property<long>("TemplateId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("maintenance_plan_template_id");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id")
-                        .HasName("p_k_maintenance_plan_template_machines");
-
-                    b.HasIndex("TemplateId")
-                        .HasDatabaseName("i_x_maintenance_plan_template_machines_maintenance_plan_template~");
-
-                    b.ToTable("maintenance_plan_template_machines");
-                });
-
-            modelBuilder.Entity("AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Entities.MaintenancePlanTemplateTask", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("maintenance_plan_template_task_id");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("TaskDescription")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
-                        .HasColumnName("task_description");
-
-                    b.Property<long>("TemplateId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("maintenance_plan_template_id");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("updated_at");
-
-                    b.HasKey("Id")
-                        .HasName("p_k_maintenance_plan_template_tasks");
-
-                    b.HasIndex("TemplateId")
-                        .HasDatabaseName("i_x_maintenance_plan_template_tasks_maintenance_plan_template_id");
-
-                    b.ToTable("maintenance_plan_template_tasks");
                 });
 
             modelBuilder.Entity("AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Aggregates.ExecutedWorkOrder", b =>
@@ -1306,26 +1187,6 @@ namespace AwawaTech.Mecanaut.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("f_k__dynamic_maintenance_plan_task__plan");
-                });
-
-            modelBuilder.Entity("AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Entities.MaintenancePlanTemplateMachine", b =>
-                {
-                    b.HasOne("AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Aggregates.MaintenancePlanTemplate", null)
-                        .WithMany()
-                        .HasForeignKey("TemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("f_k__maintenance_plan_template_machine__template");
-                });
-
-            modelBuilder.Entity("AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Entities.MaintenancePlanTemplateTask", b =>
-                {
-                    b.HasOne("AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Aggregates.MaintenancePlanTemplate", null)
-                        .WithMany()
-                        .HasForeignKey("TemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("f_k__maintenance_plan_template_task__template");
                 });
 
             modelBuilder.Entity("AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Entities.ExecutionImages", b =>

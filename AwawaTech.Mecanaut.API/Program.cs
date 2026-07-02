@@ -293,6 +293,8 @@ builder.Services.AddScoped<IMaintenancePlanTemplateQueryService, MaintenancePlan
 
 builder.Services.AddHostedService<MaintenancePlanTemplatesSeedHostedService>();
 
+builder.Services.AddScoped<AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Services.IMaintenanceKpiQueryService, AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Application.Internal.QueryServices.MaintenanceKpiQueryService>();
+//(9)
 builder.Services.AddScoped<DynamicMaintenancePlanToResourceAssembler>();
 builder.Services.AddScoped<SaveDynamicMaintenancePlanCommandFromResourceAssembler>();
 builder.Services.AddScoped<DynamicMaintenancePlanWithDetailsToResourceAssembler>();
