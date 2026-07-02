@@ -435,6 +435,98 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 .HasConstraintName("FK_DynamicMaintenancePlanTask_Plan"); // Nombre corto para el constraint
         });
 
+        builder.Entity<MaintenancePlanTemplate>(e =>
+        {
+            e.HasKey(p => p.Id);
+            e.Property(p => p.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("maintenance_plan_template_id");
+
+            e.Property(p => p.Name)
+             .IsRequired()
+             .HasMaxLength(100);
+
+            e.Property(p => p.MetricId)
+             .IsRequired()
+             .HasColumnName("metric_id");
+
+            e.Property(p => p.Amount)
+                .IsRequired()
+                .HasColumnName("amount");
+
+            e.Property(p => p.ProductionLineId)
+                .IsRequired()
+                .HasColumnName("production_line_id");
+
+            e.Property(p => p.PlantLineId)
+                .IsRequired()
+                .HasColumnName("plant_line_id");
+
+            e.Property(p => p.TenantId)
+             .HasConversion(v => v.Value, v => new TenantId(v))
+             .HasColumnName("tenant_id");
+
+            e.Property(p => p.Status)
+             .IsRequired()
+             .HasConversion<string>()
+             .HasColumnName("status");
+
+            e.HasIndex(p => new { p.Name, p.TenantId }).IsUnique();
+        });
+
+        builder.Entity<MaintenancePlanTemplateMachine>(e =>
+        {
+            e.HasKey(p => p.Id);
+
+            e.Property(p => p.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("maintenance_plan_template_machine_id");
+
+            e.Property(pm => pm.TemplateId)
+                .HasColumnName("maintenance_plan_template_id");
+
+            e.Property(pm => pm.MachineId)
+                .HasColumnName("machine_id");
+
+            e.HasIndex(pm => pm.TemplateId)
+                .HasDatabaseName("IX_MPTM_Template");
+
+            e.HasIndex(pm => pm.MachineId)
+                .HasDatabaseName("IX_MPTM_Machine");
+
+            e.HasOne<MaintenancePlanTemplate>()
+                .WithMany()
+                .HasForeignKey(pm => pm.TemplateId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_MaintenancePlanTemplateMachine_Template");
+        });
+
+        builder.Entity<MaintenancePlanTemplateTask>(e =>
+        {
+            e.HasKey(p => p.Id);
+
+            e.Property(p => p.Id)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("maintenance_plan_template_task_id");
+
+            e.Property(pt => pt.TemplateId)
+                .HasColumnName("maintenance_plan_template_id");
+
+            e.Property(pt => pt.TaskDescription)
+                .IsRequired()
+                .HasMaxLength(500)
+                .HasColumnName("task_description");
+
+            e.HasIndex(pt => pt.TemplateId)
+                .HasDatabaseName("IX_MPTT_Template");
+
+            e.HasOne<MaintenancePlanTemplate>()
+                .WithMany()
+                .HasForeignKey(pt => pt.TemplateId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_MaintenancePlanTemplateTask_Template");
+        });
+
 
         // -------------------- WorkOrders Context --------------------
         builder.Entity<WorkOrder>(e =>
@@ -574,6 +666,9 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    public DbSet<DynamicMaintenancePlan> DynamicMaintenancePlans { get; set; } = null!;
    public DbSet<DynamicMaintenancePlanMachine> DynamicMaintenancePlanMachines { get; set; } = null!;
    public DbSet<DynamicMaintenancePlanTask> DynamicMaintenancePlanTasks { get; set; } = null!;
+   public DbSet<MaintenancePlanTemplate> MaintenancePlanTemplates { get; set; } = null!;
+   public DbSet<MaintenancePlanTemplateMachine> MaintenancePlanTemplateMachines { get; set; } = null!;
+   public DbSet<MaintenancePlanTemplateTask> MaintenancePlanTemplateTasks { get; set; } = null!;
    
 
    //DbSet para ExecutionWorkOrders

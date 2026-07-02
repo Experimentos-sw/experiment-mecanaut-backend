@@ -3,6 +3,7 @@ using System;
 using AwawaTech.Mecanaut.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AwawaTech.Mecanaut.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260702174926_AddedMaintenancePlanTemplates")]
+    partial class AddedMaintenancePlanTemplates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -696,10 +699,6 @@ namespace AwawaTech.Mecanaut.API.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    b.Property<string>("Action")
-                        .HasColumnType("longtext")
-                        .HasColumnName("action");
-
                     b.Property<string>("Comment")
                         .HasColumnType("longtext")
                         .HasColumnName("comment");
@@ -723,10 +722,6 @@ namespace AwawaTech.Mecanaut.API.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("updated_at");
-
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("user_id");
 
                     b.Property<string>("Variant")
                         .IsRequired()
