@@ -23,10 +23,11 @@ public record SignUpCommand(
     string? Website,
     long SubscriptionPlanId,
 
-    // Admin user data
+    // User data
     string Username,
     string Password,
     EmailAddress Email,
     string FirstName,
-    string LastName
+    string LastName,
+    string? Role = null
 );

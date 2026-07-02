@@ -23,6 +23,7 @@ public static class SignUpCommandFromResourceAssembler
             resource.Password,
             new EmailAddress(resource.Email),
             resource.FirstName,
-            resource.LastName);
+            resource.LastName,
+            resource.Role);
     }
 }

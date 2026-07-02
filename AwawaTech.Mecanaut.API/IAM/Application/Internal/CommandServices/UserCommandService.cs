@@ -62,8 +62,7 @@ public class UserCommandService(
     {
         if (!await _subscriptionPlanAcl.ExistsByIdAsync(command.SubscriptionPlanId))
             throw new InvalidOperationException("El plan de suscripción especificado no existe.");
-        // map roles
-        
+
         // 1) Crear Tenant
         var tenant = new Tenant(
             command.Ruc,
@@ -82,7 +81,7 @@ public class UserCommandService(
         // Persistimos el tenant para obtener su Id generado antes de crear el usuario admin
         await unitOfWork.CompleteAsync();
 
-        // 2) Establecer contexto multitenant para la creación del usuario administrador
+        // 2) Establecer contexto multitenant para la creación del usuario
         TenantContext.SetTenantId(tenant.Id);
         try
         {
@@ -90,23 +89,22 @@ public class UserCommandService(
             if (userRepository.ExistsByUsername(command.Username))
                 throw new Exception($"Username {command.Username} is already taken");
 
-            // Crear usuario admin
             var hashedPassword = hashingService.HashPassword(command.Password);
-            var adminUser = new User(command.Username, hashedPassword)
+            var user = new User(command.Username, hashedPassword)
                 .UpdatePersonalInfo(command.FirstName, command.LastName, command.Email)
                 .SetTenant(tenant.Id);
 
-            // asignar rol ADMIN
-            var adminRole = await roleRepository.FindByNameAsync(nameof(Roles.RoleAdmin)) ?? new Role(Roles.RoleAdmin);
-            if (adminRole.Id == 0)
-                await roleRepository.AddAsync(adminRole);
+            var requestedRole = ParseRequestedRole(command.Role);
+            var roleEntity = await roleRepository.FindByNameAsync(requestedRole.ToString()) ?? new Role(requestedRole);
+            if (roleEntity.Id == 0)
+                await roleRepository.AddAsync(roleEntity);
 
-            adminUser.AddRole(adminRole);
+            user.AddRole(roleEntity);
 
-            await userRepository.AddAsync(adminUser);
+            await userRepository.AddAsync(user);
             await unitOfWork.CompleteAsync();
 
-            return adminUser;
+            return user;
         }
         finally
         {
@@ -184,6 +182,23 @@ public class UserCommandService(
         userRepository.Update(user);
         await unitOfWork.CompleteAsync();
         return user;
+    }
+
+    private static Roles ParseRequestedRole(string? role)
+    {
+        if (string.IsNullOrWhiteSpace(role))
+            return Roles.RoleAdmin;
+
+        var normalized = role.Trim();
+        if (Enum.TryParse<Roles>(normalized, ignoreCase: true, out var parsedRole))
+            return parsedRole;
+
+        return normalized.ToLowerInvariant() switch
+        {
+            "admin" or "administrator" or "administrador" => Roles.RoleAdmin,
+            "technical" or "technician" or "tecnico" or "técnico" => Roles.RoleTechnical,
+            _ => throw new InvalidOperationException($"Invalid role specified: {role}")
+        };
     }
     
     public async Task<bool> CanAddAdminUser(long tenantId)
