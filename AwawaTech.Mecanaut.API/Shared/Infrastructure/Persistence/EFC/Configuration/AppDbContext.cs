@@ -29,6 +29,7 @@ using AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.ValueObjects;
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Entities;
+using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Model.Aggregates;
 
 namespace AwawaTech.Mecanaut.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
@@ -543,6 +544,16 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 .WithMany()
                 .HasForeignKey(x => x.ExecutedWorkOrderId);
         });
+        
+        // ------------------ ExperimentSurveys ------------------
+        builder.Entity<ExperimentSurvey>(e =>
+        {
+            e.ToTable("ExperimentSurveys");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Rating);
+            e.Property(x => x.Variant);
+            e.Property(x => x.Comment);
+        });
 
         builder.UseSnakeCaseNamingConvention();
     }
@@ -571,4 +582,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    public DbSet<UsedProduct> UsedProducts { get; set; } = null!;
    public DbSet<ExecutionImages> ExecutionImages { get; set; } = null!;
    public DbSet<WorkOrder> WorkOrders { get; set; } = null!;
+   
+   //DbSet para ExperimentSurveys
+   
+   public DbSet<ExperimentSurvey> ExperimentSurveys { get; set; } = null!;
 }

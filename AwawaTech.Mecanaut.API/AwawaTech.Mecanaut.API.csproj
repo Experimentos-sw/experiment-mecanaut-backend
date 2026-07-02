@@ -11,6 +11,10 @@
 	<ItemGroup>
 		<!-- Dependency Injection related packages -->
 		<PackageReference Include="FluentAssertions" Version="8.10.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.5" />
 		<!-- EntityFrameworkCore Database Persistence related packages -->
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
@@ -36,6 +40,7 @@
 
 		<!-- Cloudinary related packages -->
 		<PackageReference Include="CloudinaryDotNet" Version="1.15.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5"/>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -52,6 +57,12 @@
 	  <Folder Include="DynamicMaintenancePlanning\Application\Internal\QueryServices\" />
 	  <Folder Include="DynamicMaintenancePlanning\Infrastructure\Persistence\EFC\Repositories\" />
 	  <Folder Include="ExecutedWorkOrders\Domain\Services\" />
+	  <Folder Include="ExperimentSurveys\Application\Internal\OutboundServices\" />
+	  <Folder Include="ExperimentSurveys\Application\Internal\QueryServices\" />
+	  <Folder Include="ExperimentSurveys\Domain\Model\Entities\" />
+	  <Folder Include="ExperimentSurveys\Domain\Model\Events\" />
+	  <Folder Include="ExperimentSurveys\Domain\Services\" />
+	  <Folder Include="ExperimentSurveys\Infrastructure\OutboundServices\Services\" />
 	  <Folder Include="WorkOrders\Domain\Repositories\" />
 	  <Folder Include="WorkOrders\Domain\Services\" />
 	</ItemGroup>
