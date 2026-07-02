@@ -4,5 +4,5 @@ using AwawaTech.Mecanaut.API.Shared.Domain.Model.ValueObjects;
 
 public interface IWorkOrderExecAcl
 {
-    Task MarkAsCompletedAsync(long workOrderId, TenantId tenantId, bool isAreaCleaned, bool areToolsReturned, bool isOperationsVerified);
+    Task MarkAsCompletedAsync(long workOrderId, TenantId tenantId);
 }

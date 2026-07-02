@@ -42,10 +42,7 @@ public class WorkOrderCommandService : IWorkOrderCommandService
 
     public async Task<WorkOrder> Handle(CompleteWorkOrderCommand command)
     {
-        if (!command.IsAreaCleaned || !command.AreToolsReturned || !command.IsOperationsVerified)
-        {
-            throw new System.ArgumentException("Todas las validaciones de la checklist deben estar marcadas (Área limpia, Herramientas devueltas, Operaciones verificadas) para cerrar la Orden de Trabajo.");
-        }
+
 
         var workOrder = await _repository.FindByIdAsync(command.WorkOrderId, command.TenantId);
         if (workOrder == null) return null;

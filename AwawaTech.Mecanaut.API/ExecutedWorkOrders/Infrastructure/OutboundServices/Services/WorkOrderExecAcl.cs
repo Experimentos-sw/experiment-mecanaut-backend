@@ -18,15 +18,12 @@ public class WorkOrderExecAcl : IWorkOrderExecAcl
         _workOrderExecCommandService = workOrderExecCommandService;
     }
 
-    public async Task MarkAsCompletedAsync(long workOrderId, TenantId tenantId, bool isAreaCleaned, bool areToolsReturned, bool isOperationsVerified)
+    public async Task MarkAsCompletedAsync(long workOrderId, TenantId tenantId)
     {
         var command = new CompleteWorkOrderCommand
         {
             WorkOrderId = workOrderId,
-            TenantId = tenantId,
-            IsAreaCleaned = isAreaCleaned,
-            AreToolsReturned = areToolsReturned,
-            IsOperationsVerified = isOperationsVerified
+            TenantId = tenantId
         };
 
         await _workOrderExecCommandService.Handle(command);
