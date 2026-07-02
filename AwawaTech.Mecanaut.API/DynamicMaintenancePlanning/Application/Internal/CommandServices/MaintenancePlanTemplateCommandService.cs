@@ -4,6 +4,7 @@ using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Commands;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Entities;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Repositories;
+using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Services;
 using AwawaTech.Mecanaut.API.Shared.Domain.Model.ValueObjects;
 using AwawaTech.Mecanaut.API.Shared.Domain.Repositories;
 using AwawaTech.Mecanaut.API.Shared.Infrastructure.Multitenancy;

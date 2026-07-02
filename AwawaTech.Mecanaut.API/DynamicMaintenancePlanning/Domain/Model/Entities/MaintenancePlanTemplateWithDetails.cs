@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Aggregates;
 
 namespace AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Entities;
 

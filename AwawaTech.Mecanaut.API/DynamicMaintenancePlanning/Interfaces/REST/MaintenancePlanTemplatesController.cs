@@ -46,6 +46,6 @@ public class MaintenancePlanTemplatesController : ControllerBase
         var template = await _commandService.CreateAsync(command);
 
         var response = _toResourceAssembler.ToResource(template);
-        return CreatedAtAction(nameof(GetAllAsync), new { id = response.Id }, response);
+        return Ok(response);
     }
 }
