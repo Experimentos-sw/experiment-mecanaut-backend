@@ -522,8 +522,11 @@ namespace AwawaTech.Mecanaut.API.Migrations
                     b.HasKey("Id")
                         .HasName("p_k_maintenance_plan_template_machines");
 
+                    b.HasIndex("MachineId")
+                        .HasDatabaseName("i_x__m_p_t_m__machine");
+
                     b.HasIndex("TemplateId")
-                        .HasDatabaseName("i_x_maintenance_plan_template_machines_maintenance_plan_template~");
+                        .HasDatabaseName("i_x__m_p_t_m__template");
 
                     b.ToTable("maintenance_plan_template_machines");
                 });
@@ -557,7 +560,7 @@ namespace AwawaTech.Mecanaut.API.Migrations
                         .HasName("p_k_maintenance_plan_template_tasks");
 
                     b.HasIndex("TemplateId")
-                        .HasDatabaseName("i_x_maintenance_plan_template_tasks_maintenance_plan_template_id");
+                        .HasDatabaseName("i_x__m_p_t_t__template");
 
                     b.ToTable("maintenance_plan_template_tasks");
                 });
@@ -737,6 +740,48 @@ namespace AwawaTech.Mecanaut.API.Migrations
                         .HasName("p_k_experiment_surveys");
 
                     b.ToTable("experiment_surveys", (string)null);
+                });
+
+            modelBuilder.Entity("AwawaTech.Mecanaut.API.FormContact.Domain.Model.SupportRequest", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("support_request_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("message");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("name");
+
+                    b.Property<DateTime>("SubmittedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("submitted_at");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("p_k_support_requests");
+
+                    b.ToTable("support_requests");
                 });
 
             modelBuilder.Entity("AwawaTech.Mecanaut.API.IAM.Domain.Model.Aggregates.Tenant", b =>
