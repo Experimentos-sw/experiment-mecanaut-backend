@@ -23,4 +23,10 @@ public class MaintenancePlanTemplateQueryService : IMaintenancePlanTemplateQuery
         var tenantId = tenantHelper.GetCurrentTenantId();
         return await templateRepository.GetAllByTenantIdAsync(tenantId);
     }
+
+    public async Task<MaintenancePlanTemplateWithDetails?> GetByIdAsync(long id)
+    {
+        var tenantId = tenantHelper.GetCurrentTenantId();
+        return await templateRepository.GetByIdByTenantIdAsync(id, tenantId);
+    }
 }

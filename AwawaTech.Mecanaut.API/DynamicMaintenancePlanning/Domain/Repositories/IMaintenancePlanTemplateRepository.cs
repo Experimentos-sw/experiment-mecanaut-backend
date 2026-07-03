@@ -8,5 +8,6 @@ public interface IMaintenancePlanTemplateRepository : IBaseRepository<Maintenanc
 {
     Task<bool> ExistsByNameAsync(string name, long tenantId);
     Task<IEnumerable<MaintenancePlanTemplateWithDetails>> GetAllByTenantIdAsync(long tenantId);
+    Task<MaintenancePlanTemplateWithDetails?> GetByIdByTenantIdAsync(long id, long tenantId);
     Task AddEntityAsync<T>(T entity) where T : class;
 }

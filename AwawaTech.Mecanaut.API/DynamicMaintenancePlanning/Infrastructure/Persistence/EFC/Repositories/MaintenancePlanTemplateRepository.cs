@@ -50,6 +50,32 @@ public class MaintenancePlanTemplateRepository : BaseRepository<MaintenancePlanT
         return result;
     }
 
+    public async Task<MaintenancePlanTemplateWithDetails?> GetByIdByTenantIdAsync(long id, long tenantId)
+    {
+        var template = await _context.Set<MaintenancePlanTemplate>()
+            .FirstOrDefaultAsync(p => p.Id == id && p.TenantId == new TenantId(tenantId));
+
+        if (template == null)
+        {
+            return null;
+        }
+
+        var machines = await _context.Set<MaintenancePlanTemplateMachine>()
+            .Where(m => m.TemplateId == template.Id)
+            .ToListAsync();
+
+        var tasks = await _context.Set<MaintenancePlanTemplateTask>()
+            .Where(t => t.TemplateId == template.Id)
+            .ToListAsync();
+
+        return new MaintenancePlanTemplateWithDetails
+        {
+            Template = template,
+            Machines = machines,
+            Tasks = tasks
+        };
+    }
+
     public async Task AddEntityAsync<T>(T entity) where T : class
     {
         await _context.Set<T>().AddAsync(entity);

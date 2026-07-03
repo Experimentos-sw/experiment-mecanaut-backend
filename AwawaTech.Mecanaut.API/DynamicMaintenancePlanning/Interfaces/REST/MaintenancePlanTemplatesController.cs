@@ -36,6 +36,18 @@ public class MaintenancePlanTemplatesController : ControllerBase
         return Ok(resources);
     }
 
+    [HttpGet("{id:long}")]
+    public async Task<ActionResult<MaintenancePlanTemplateResource>> GetByIdAsync(long id)
+    {
+        var template = await _queryService.GetByIdAsync(id);
+        if (template == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(_toResourceAssembler.ToResource(template));
+    }
+
     [HttpPost]
     public async Task<ActionResult<MaintenancePlanTemplateResource>> CreateAsync([FromBody] CreateMaintenancePlanTemplateResource resource)
     {
