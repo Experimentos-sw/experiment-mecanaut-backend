@@ -36,7 +36,7 @@ public class WorkOrderRepository : BaseRepository<WorkOrder>, IWorkOrderReposito
             .Where(x =>
                 x.ProductionLineId == productionLineId &&
                 x.TenantId == tenantId &&
-                x.Status == WorkOrderStatus.Pending)
+                (x.Status == WorkOrderStatus.Pending || x.Status == WorkOrderStatus.InProgress))
             .AsNoTracking()
             .ToListAsync();
 
