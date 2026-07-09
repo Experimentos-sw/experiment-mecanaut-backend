@@ -17,6 +17,7 @@ public class WorkOrderRepository : BaseRepository<WorkOrder>, IWorkOrderReposito
     public async Task<WorkOrder> FindByIdAsync(long id, TenantId tenantId)
     {
         return await Context.WorkOrders
+            .Include(x => x.RequiredParts)
             .FirstOrDefaultAsync(x => x.Id == id && x.TenantId == tenantId);
     }
 

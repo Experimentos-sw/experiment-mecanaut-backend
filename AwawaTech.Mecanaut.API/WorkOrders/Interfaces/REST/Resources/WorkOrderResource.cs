@@ -12,5 +12,6 @@ public record WorkOrderResource(
     long ProductionLineId,
     List<long> MachineIds,
     List<long?> TechnicianIds,
-    List<string> Tasks
+    List<string> Tasks,
+    List<RequiredPartResource> RequiredParts
 ); 
