@@ -18,6 +18,10 @@ public class ExperimentSurvey : AuditableAggregateRoot
 
     public string? Comment { get; private set; }
 
+    public int? DurationSeconds { get; private set; }
+
+    public string? LastStep { get; private set; }
+
     public DateTime SubmittedAt { get; private set; }
 
     public ExperimentSurvey(
@@ -26,7 +30,9 @@ public class ExperimentSurvey : AuditableAggregateRoot
         string variant,
         string? action,
         long? userId,
-        string? comment)
+        string? comment,
+        int? durationSeconds,
+        string? lastStep)
     {
         MaintenancePlanId = maintenancePlanId;
         Rating = rating;
@@ -34,6 +40,8 @@ public class ExperimentSurvey : AuditableAggregateRoot
         Action = action;
         UserId = userId;
         Comment = comment;
+        DurationSeconds = durationSeconds;
+        LastStep = lastStep;
         SubmittedAt = DateTime.UtcNow;
     }
 }

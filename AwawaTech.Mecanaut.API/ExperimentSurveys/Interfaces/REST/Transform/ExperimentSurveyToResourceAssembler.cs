@@ -10,10 +10,14 @@ public static class ExperimentSurveyToResourceAssembler
         return new ExperimentSurveyResource
         {
             Id = survey.Id,
+            MaintenancePlanId = survey.MaintenancePlanId,
             Rating = survey.Rating,
             Variant = survey.Variant,
             Action = survey.Action,
             UserId = survey.UserId,
+            Comment = survey.Comment,
+            DurationSeconds = survey.DurationSeconds,
+            LastStep = survey.LastStep,
             SubmittedAt = survey.SubmittedAt
         };
     }

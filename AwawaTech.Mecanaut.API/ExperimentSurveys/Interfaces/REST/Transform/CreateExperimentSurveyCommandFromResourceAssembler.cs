@@ -13,6 +13,8 @@ public static class CreateExperimentSurveyCommandFromResourceAssembler
             resource.Variant,
             resource.Action,
             resource.UserId,
-            resource.Comment);
+            resource.Comment,
+            resource.DurationSeconds,
+            resource.LastStep);
     }
 }
