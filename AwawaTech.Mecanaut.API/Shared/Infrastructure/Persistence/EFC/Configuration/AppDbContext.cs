@@ -24,6 +24,7 @@ using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.Entities;
 using AwawaTech.Mecanaut.API.DynamicMaintenancePlanning.Domain.Model.ValueObjects;
 using AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates;
+using AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Entities;
 using AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.ValueObjects;
 
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Aggregates;
@@ -604,6 +605,20 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                  v => v.Split('|', StringSplitOptions.RemoveEmptyEntries).ToList()
              );
         });
+
+        // WorkOrderRequiredPart
+        builder.Entity<WorkOrderRequiredPart>(e =>
+        {
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).ValueGeneratedOnAdd();
+            e.Property(x => x.WorkOrderId).IsRequired();
+            e.Property(x => x.InventoryPartId).IsRequired();
+            e.Property(x => x.Quantity).IsRequired();
+
+            e.HasOne<WorkOrder>()
+                .WithMany(w => w.RequiredParts)
+                .HasForeignKey(x => x.WorkOrderId);
+        });
         
         // ExecutedWorkOrder
         builder.Entity<ExecutedWorkOrder>(e =>
@@ -705,6 +720,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    public DbSet<UsedProduct> UsedProducts { get; set; } = null!;
    public DbSet<ExecutionImages> ExecutionImages { get; set; } = null!;
    public DbSet<WorkOrder> WorkOrders { get; set; } = null!;
+   public DbSet<WorkOrderRequiredPart> WorkOrderRequiredParts { get; set; } = null!;
    
    //DbSet para ExperimentSurveys
    

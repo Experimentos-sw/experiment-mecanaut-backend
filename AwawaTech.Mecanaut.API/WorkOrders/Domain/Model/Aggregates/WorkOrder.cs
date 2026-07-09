@@ -2,6 +2,7 @@ using AwawaTech.Mecanaut.API.Shared.Domain.Model.Entities;
 using AwawaTech.Mecanaut.API.Shared.Domain.Model.ValueObjects;
 using AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Events;
 using AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.ValueObjects;
+using AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Entities;
 namespace AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates;
 
 public class WorkOrder : AuditableAggregateRoot
@@ -11,6 +12,7 @@ public class WorkOrder : AuditableAggregateRoot
     public List<long> MachineIds { get; private set; }
     public List<long?> TechnicianIds { get; private set; }
     public List<string> Tasks { get; private set; }
+    public List<WorkOrderRequiredPart> RequiredParts { get; private set; }
     public WorkOrderStatus Status { get; private set; }
     public DateTime Date { get; private set; }
     public long ProductionLineId { get; private set; }
@@ -22,6 +24,7 @@ public class WorkOrder : AuditableAggregateRoot
         MachineIds = new List<long>();
         TechnicianIds = new List<long?>();
         Tasks = new List<string>();
+        RequiredParts = new List<WorkOrderRequiredPart>();
     }
 
     private WorkOrder(
@@ -106,5 +109,10 @@ public class WorkOrder : AuditableAggregateRoot
             throw new ArgumentException("Work order can only be started when pending");
 
         Status = WorkOrderStatus.InProgress;
+    }
+
+    public void AddRequiredParts(IEnumerable<WorkOrderRequiredPart> requiredParts)
+    {
+        RequiredParts.AddRange(requiredParts);
     }
 }

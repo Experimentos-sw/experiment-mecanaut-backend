@@ -13,6 +13,7 @@ using Xunit;
 using System.Linq;
 
 using AwawaTech.Mecanaut.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+using AwawaTech.Mecanaut.API.WorkOrders.Interfaces.REST.Resources;
 
 namespace AwawaTech.Mecanaut.Tests.Integration
 {
@@ -270,6 +271,116 @@ namespace AwawaTech.Mecanaut.Tests.Integration
 
                 updatedPart.Should().NotBeNull();
                 updatedPart!.CurrentStock.Should().Be(initialStock - quantityUsed, "El stock actual debería haber disminuido según la cantidad reportada en el payload.");
+            }
+        }
+
+        // Escenario 5: US11-R - Verificación de Stock e Inicio de Orden
+        [Fact]
+        public async Task StartWorkOrder_SufficientStock_StartsOrder()
+        {
+            // Arrange
+            long partId;
+            long workOrderId;
+
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                var unitPrice = new AwawaTech.Mecanaut.API.InventoryManagement.Domain.Model.ValueObjects.Money(15m, "PEN");
+                var part = AwawaTech.Mecanaut.API.InventoryManagement.Domain.Model.Aggregates.InventoryPart.Create(
+                    "P-US11-OK", "Repuesto Suficiente", "Para pruebas de stock suficiente", 10, 2, 1, unitPrice);
+                db.Set<AwawaTech.Mecanaut.API.InventoryManagement.Domain.Model.Aggregates.InventoryPart>().Add(part);
+                await db.SaveChangesAsync();
+                partId = part.Id;
+
+                var tenantId = new AwawaTech.Mecanaut.API.Shared.Domain.Model.ValueObjects.TenantId(1);
+                var wo = AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates.WorkOrder.Create(
+                    "WO-US11-OK", tenantId, DateTime.UtcNow, 1, AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.ValueObjects.WorkOrderType.Preventive);
+                
+                var reqPart = new AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Entities.WorkOrderRequiredPart(partId, 4);
+                wo.AddRequiredParts(new[] { reqPart });
+                
+                db.Set<AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates.WorkOrder>().Add(wo);
+                await db.SaveChangesAsync();
+                workOrderId = wo.Id;
+            }
+
+            // Act - GET Verification
+            var getVerifyResponse = await _client.GetAsync($"/api/v1/work-orders/{workOrderId}/stock-verification");
+            getVerifyResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            var verifyResult = await getVerifyResponse.Content.ReadFromJsonAsync<List<StockVerificationResultResource>>();
+            verifyResult.Should().NotBeNull();
+            verifyResult!.Count.Should().Be(1);
+            verifyResult[0].InventoryPartId.Should().Be(partId);
+            verifyResult[0].RequiredQuantity.Should().Be(4);
+            verifyResult[0].AvailableQuantity.Should().Be(10);
+            verifyResult[0].HasSufficientStock.Should().BeTrue();
+
+            // Act - Start Order
+            var startResponse = await _client.PutAsync($"/api/v1/work-orders/{workOrderId}/start", null);
+            startResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            // Assert - Db check
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                var order = await db.Set<AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates.WorkOrder>()
+                    .FirstOrDefaultAsync(w => w.Id == workOrderId);
+                order.Should().NotBeNull();
+                order!.Status.Should().Be(AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.ValueObjects.WorkOrderStatus.InProgress);
+            }
+        }
+
+        [Fact]
+        public async Task StartWorkOrder_InsufficientStock_BlocksOrderAndReturnsConflict()
+        {
+            // Arrange
+            long partId;
+            long workOrderId;
+
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                var unitPrice = new AwawaTech.Mecanaut.API.InventoryManagement.Domain.Model.ValueObjects.Money(15m, "PEN");
+                var part = AwawaTech.Mecanaut.API.InventoryManagement.Domain.Model.Aggregates.InventoryPart.Create(
+                    "P-US11-FAIL", "Repuesto Insuficiente", "Para pruebas de stock insuficiente", 3, 2, 1, unitPrice);
+                db.Set<AwawaTech.Mecanaut.API.InventoryManagement.Domain.Model.Aggregates.InventoryPart>().Add(part);
+                await db.SaveChangesAsync();
+                partId = part.Id;
+
+                var tenantId = new AwawaTech.Mecanaut.API.Shared.Domain.Model.ValueObjects.TenantId(1);
+                var wo = AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates.WorkOrder.Create(
+                    "WO-US11-FAIL", tenantId, DateTime.UtcNow, 1, AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.ValueObjects.WorkOrderType.Preventive);
+                
+                var reqPart = new AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Entities.WorkOrderRequiredPart(partId, 8);
+                wo.AddRequiredParts(new[] { reqPart });
+                
+                db.Set<AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates.WorkOrder>().Add(wo);
+                await db.SaveChangesAsync();
+                workOrderId = wo.Id;
+            }
+
+            // Act - GET Verification
+            var getVerifyResponse = await _client.GetAsync($"/api/v1/work-orders/{workOrderId}/stock-verification");
+            getVerifyResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            var verifyResult = await getVerifyResponse.Content.ReadFromJsonAsync<List<StockVerificationResultResource>>();
+            verifyResult.Should().NotBeNull();
+            verifyResult!.Count.Should().Be(1);
+            verifyResult[0].HasSufficientStock.Should().BeFalse();
+
+            // Act - Start Order (Expect Block)
+            var startResponse = await _client.PutAsync($"/api/v1/work-orders/{workOrderId}/start", null);
+            startResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            // Assert - Db check
+            using (var scope = _factory.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                var order = await db.Set<AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates.WorkOrder>()
+                    .FirstOrDefaultAsync(w => w.Id == workOrderId);
+                order.Should().NotBeNull();
+                order!.Status.Should().Be(AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.ValueObjects.WorkOrderStatus.Pending);
             }
         }
     }
