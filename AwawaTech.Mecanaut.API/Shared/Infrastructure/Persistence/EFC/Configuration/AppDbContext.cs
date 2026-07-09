@@ -32,6 +32,7 @@ using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.ExecutedWorkOrders.Domain.Model.Entities;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Model.Aggregates;
 using AwawaTech.Mecanaut.API.FormContact.Domain.Model;
+using AwawaTech.Mecanaut.API.TelemetryManagement.Domain.Model.Aggregates;
 
 namespace AwawaTech.Mecanaut.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
@@ -685,9 +686,27 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         {
             e.ToTable("ExperimentSurveys");
             e.HasKey(x => x.Id);
-            e.Property(x => x.Rating);
-            e.Property(x => x.Variant);
+            e.Property(x => x.MaintenancePlanId).IsRequired();
+            e.Property(x => x.Rating).IsRequired();
+            e.Property(x => x.Variant).IsRequired();
+            e.Property(x => x.Action);
+            e.Property(x => x.UserId);
             e.Property(x => x.Comment);
+            e.Property(x => x.DurationSeconds);
+            e.Property(x => x.LastStep);
+            e.Property(x => x.SubmittedAt).IsRequired();
+        });
+
+        // ------------------ TelemetryManagement ------------------
+        builder.Entity<ExperimentLog>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.ExperimentName).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.Variant).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.ActionType).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.AdditionalData).HasMaxLength(1000);
+            
+            entity.ToTable("experiment_logs");
         });
 
         builder.UseSnakeCaseNamingConvention();
@@ -725,4 +744,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    //DbSet para ExperimentSurveys
    
    public DbSet<ExperimentSurvey> ExperimentSurveys { get; set; } = null!;
+
+   //DbSet para TelemetryManagement
+   public DbSet<ExperimentLog> ExperimentLogs { get; set; } = null!;
 }

@@ -3,6 +3,7 @@ using System;
 using AwawaTech.Mecanaut.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AwawaTech.Mecanaut.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260709201350_UpdateExperimentSurvey")]
+    partial class UpdateExperimentSurvey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1089,59 +1092,6 @@ namespace AwawaTech.Mecanaut.API.Migrations
                         .HasName("p_k_subscription_plans");
 
                     b.ToTable("subscription_plans");
-                });
-
-            modelBuilder.Entity("AwawaTech.Mecanaut.API.TelemetryManagement.Domain.Model.Aggregates.ExperimentLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<string>("ActionType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("action_type");
-
-                    b.Property<string>("AdditionalData")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)")
-                        .HasColumnName("additional_data");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("created_at");
-
-                    b.Property<long?>("DurationMilliseconds")
-                        .HasColumnType("bigint")
-                        .HasColumnName("duration_milliseconds");
-
-                    b.Property<string>("ExperimentName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("experiment_name");
-
-                    b.Property<bool>("IsSuccess")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_success");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("updated_at");
-
-                    b.Property<string>("Variant")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("variant");
-
-                    b.HasKey("Id")
-                        .HasName("p_k_experiment_logs");
-
-                    b.ToTable("experiment_logs", (string)null);
                 });
 
             modelBuilder.Entity("AwawaTech.Mecanaut.API.WorkOrders.Domain.Model.Aggregates.WorkOrder", b =>

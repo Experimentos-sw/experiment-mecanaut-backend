@@ -1,6 +1,7 @@
-﻿using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Services;
+using AwawaTech.Mecanaut.API.ExperimentSurveys.Domain.Services;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Interfaces.REST.Resources;
 using AwawaTech.Mecanaut.API.ExperimentSurveys.Interfaces.REST.Transform;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AwawaTech.Mecanaut.API.ExperimentSurveys.Interfaces.REST;
@@ -21,13 +22,14 @@ public class ExperimentSurveysController : ControllerBase
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<IActionResult> CreateAsync([FromBody] CreateExperimentSurveyResource resource)
     {
         var command = CreateExperimentSurveyCommandFromResourceAssembler.ToCommand(resource);
         var survey = await _commandService.HandleAsync(command);
         var result = ExperimentSurveyToResourceAssembler.ToResource(survey);
 
-        return Ok(result);
+        return CreatedAtAction(nameof(GetByIdAsync), new { id = result.Id }, result);
     }
 
     [HttpGet]

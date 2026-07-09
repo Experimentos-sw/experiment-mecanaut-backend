@@ -25,7 +25,9 @@ public class ExperimentSurveyCommandService : IExperimentSurveyCommandService
             command.Variant,
             command.Action,
             command.UserId,
-            command.Comment);
+            command.Comment,
+            command.DurationSeconds,
+            command.LastStep);
 
         await _repository.AddAsync(survey);
         await _unitOfWork.CompleteAsync();

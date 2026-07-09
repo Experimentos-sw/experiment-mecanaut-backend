@@ -8,13 +8,15 @@ public record CreateExperimentSurveyCommand
     public string? Action { get; init; }
     public long? UserId { get; init; }
     public string? Comment { get; init; }
+    public int? DurationSeconds { get; init; }
+    public string? LastStep { get; init; }
 
     public CreateExperimentSurveyCommand()
     {
         Variant = string.Empty;
     }
 
-    public CreateExperimentSurveyCommand(int maintenancePlanId, int rating, string variant, string? action, long? userId, string? comment)
+    public CreateExperimentSurveyCommand(int maintenancePlanId, int rating, string variant, string? action, long? userId, string? comment, int? durationSeconds, string? lastStep)
     {
         MaintenancePlanId = maintenancePlanId;
         Rating = rating;
@@ -22,6 +24,8 @@ public record CreateExperimentSurveyCommand
         Action = action;
         UserId = userId;
         Comment = comment;
+        DurationSeconds = durationSeconds;
+        LastStep = lastStep;
     }
 
     private static Guid ParseMaintenancePlanId(string? maintenancePlanId)
